@@ -40,6 +40,8 @@ class BMM_Nav {
      * @access public
      */
     public $menu_items = '';
+    
+    protected $menu_item_parent = '';
 
     /**
      * __construct function.
@@ -55,8 +57,18 @@ class BMM_Nav {
 
         $this->menu = wp_get_nav_menu_object( $locations[ $args['theme_location'] ] );
         $this->menu_items = wp_get_nav_menu_items( $this->menu->term_id );
-
+        
+        $this->setup_menu_items();
+        
         $this->menu();
+        
+        add_action('wp_get_nav_menu_items', array($this, 'wp_get_nav_menu_items'), 10, 3);
+    }
+    
+    public function setup_menu_items() {
+        foreach ($this->menu_items as $key => $item) :
+            // setup classes inc has children
+        endforeach;
     }
 
     /**
@@ -67,20 +79,30 @@ class BMM_Nav {
      * @return output
      */
     public function menu( $output = '' ) {
-
-        $output .= '<nav id="" class="">';
-
-        foreach ( $this->menu_items as $menu_item ) :
+        $this->menu_item_parent = 0;
+/*
+  start level
+  display el
+  end el
+  end level
+*/        
+        $output .= '<nav id="bmm-nav-menu" class="bmm-nav-menu">';
             $output .= '<ul class="bmm-menu">';
-
-            if ( $this->bmm_is_column( $menu_item->post_name ) ) :
-                $output .= '<div class="bmm-column"></div>';
-                else :
-                    $output .= '<li><a href="' . get_permalink( $menu_item->ID ) . '" class="bmm-nav-menu-link">' . $menu_item->title . '</a></li>';
-                endif;
-
-                $output .= '</ul>';
-            endforeach;
+                foreach ( $this->menu_items as $menu_item ) :
+print_r($menu_item);                
+                    if ( $this->bmm_is_column( $menu_item->post_name ) ) :
+                        $output .= '<div id="bmm-column-'.$menu_item->ID.'" class="bmm-column parent-'.$menu_item->menu_item_parent.'">';
+                            $output .= '<!-- ul, then lis, then end col -->';
+                        $output .= '</div>';
+                    else :
+                        $output .= '<li id="bmm-nav-menu-item-'.$menu_item->ID.'" class="bmm-nav-menu-item parent-'.$menu_item->menu_item_parent.'"><a href="' . $menu_item->url . '" class="bmm-nav-menu-link">' . $menu_item->title . '</a>';
+                            $output .= '<!-- submenu check -->';
+                        $output .= '</li>';
+                    endif;
+    
+                    
+                endforeach;
+            $output .= '</ul>';
         $output .= '</nav>';
 
         return $output;
