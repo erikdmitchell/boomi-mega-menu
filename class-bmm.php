@@ -85,7 +85,13 @@ final class BMM {
      * @access public
      * @return void
      */
-    public function init() {}
+    public function init() {
+        add_action('wp_enqueue_scripts', array($this, 'frontend_scripts_styles'));
+    }
+    
+    public function frontend_scripts_styles() {
+        wp_enqueue_style('bmm-style', BMM_URL.'css/bmm.css', '', $this->version);
+    }
 
     /**
      * Parse args function.

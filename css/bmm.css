@@ -1,0 +1,29 @@
+#menu-item-5 > ul {
+    left: 0.5em;
+    right: auto;
+}
+
+.bmm-menu,
+.bmm-sub-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bmm-sub-menu {
+    width: 100%;
+}
+
+.column-menu-item {
+    width: 100%;
+    float: left;
+    padding-right: 2%;
+}
+
+.column-menu-item.total-columns-6 {
+    width: 15%;
+}
+
+.column-menu-item:last-child {
+    padding-right: 0;
+}
