@@ -101,10 +101,11 @@ gulp.task('sass', function () {
         .pipe(autoprefixer('last 2 version', '> 1%', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(sourcemaps.write('.'))
         .pipe(plumber.stop())
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest('./'))             
 });
 
 // minify all css
+/*
 gulp.task('mincss', function () {
     gulp.src(cssInclude)
         .pipe(plumber())
@@ -125,6 +126,7 @@ gulp.task('mincss', function () {
         }))
         .pipe(gulp.dest('./'))
 });
+*/
 
 // css linting with Stylelint.
 gulp.task('lintcss', function lintCssTask() {
@@ -218,7 +220,8 @@ gulp.task('build', function (cb) {
 
 // Styles task
 gulp.task('styles', function (cb) {
-    runSequence('sass', 'mincss', cb);
+    //runSequence('sass', 'mincss', cb);
+    runSequence('sass', cb);    
 });
 
 

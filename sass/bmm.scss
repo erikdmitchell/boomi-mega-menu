@@ -2,7 +2,13 @@
 
 .bmm-menu {
     width: 100%;
-    position: relative;    
+    position: relative; 
+    
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }   
 }
 
 .bmm-menu,
@@ -14,7 +20,7 @@
 
 .bmm-sub-menu {
     position: absolute; 
-    //width: 100%;
+    width: 100%;
     z-index: 999;
     left: 0;
     background: #fff;
@@ -56,9 +62,6 @@
     transition-delay: 0s;
 }
 */
-
-
-
 
 .column-menu-item {
     position: relative;
@@ -307,3 +310,8 @@
     }
 }
 */
+
+#menu-item-5 > .bmm-sub-menu {
+    visibility: visible;
+    opacity: 1;
+}
