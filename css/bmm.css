@@ -1,8 +1,3 @@
-#menu-item-5 > ul {
-    left: 0.5em;
-    right: auto;
-}
-
 .bmm-menu,
 .bmm-sub-menu {
     list-style-type: none;
@@ -12,12 +7,21 @@
 
 .bmm-sub-menu {
     width: 100%;
+    overflow: auto;
 }
 
 .column-menu-item {
     width: 100%;
     float: left;
     padding-right: 2%;
+}
+
+.column-menu-item > a {
+    display: none;
+}
+
+.column-menu-item.total-columns-2 {
+    width: 49%;
 }
 
 .column-menu-item.total-columns-6 {
