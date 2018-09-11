@@ -67,10 +67,7 @@ final class BMM {
      * @return void
      */
     public function includes() {
-        include_once( BMM_PATH . 'class-bmm.php' );
-        // include_once( BMM_PATH . 'class-bmm-menu-item-row.php' );.
         include_once( BMM_PATH . 'menu-item-column.php' );
-        include_once( BMM_PATH . 'functions.php' );
         include_once( BMM_PATH . 'class-bmm-nav-walker.php' );
     }
 
