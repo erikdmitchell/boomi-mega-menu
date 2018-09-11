@@ -46,8 +46,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		$class_names = join( ' ', apply_filters( 'nav_menu_submenu_css_class', $classes, $args, $depth ) );
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-//echo $class_names;
-//echo $depth;		
+	
 		$output .= "{$n}{$indent}<ul$class_names>{$n}";
 	}
 
@@ -80,7 +79,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		// Initialize some holder variables to store specially handled item
 		// wrappers and icons.
 		$linkmod_classes = array();
-		//$icon_classes    = array();
+		$icon_classes    = array();
 
 		/**
 		 * Get an updated $classes array without linkmod or icon classes.
@@ -88,10 +87,10 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 * NOTE: linkmod and icon class arrays are passed by reference and
 		 * are maybe modified before being used later in this function.
 		 */
-		//$classes = $this->separate_columns_from_classes( $classes, $linkmod_classes, $icon_classes, $depth );
+		$classes = $this->separate_linkmods_and_icons_from_classes( $classes, $linkmod_classes, $icon_classes, $depth );
 
 		// Join any icon classes plucked from $classes into a string.
-		//$icon_class_string = join( ' ', $icon_classes );
+		$icon_class_string = join( ' ', $icon_classes );
 
 		/**
 		 * Filters the arguments for a single nav menu item.
@@ -104,13 +103,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
-		// Add .dropdown or .active classes where they are needed.
-/*
-		if ( isset( $args->has_children ) && $args->has_children ) {
-			$classes[] = 'dropdown';
-		}
-*/
-
+		// Add .active classes when needed.
 		if ( in_array( 'current-menu-item', $classes, true ) || in_array( 'current-menu-parent', $classes, true ) ) {
 			$classes[] = 'active';
 		}
@@ -151,16 +144,14 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		// Set title from item to the $atts array - if title is empty then
 		// default to item title.
-/*
 		if ( empty( $item->attr_title ) ) {
 			$atts['title'] = ! empty( $item->title ) ? strip_tags( $item->title ) : '';
 		} else {
 			$atts['title'] = $item->attr_title;
 		}
-*/
 
-		//$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-		//$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
+		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
+		$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
 		// If item has_children add atts to <a>.
 /*
 		if ( isset( $args->has_children ) && $args->has_children && 0 === $depth && $args->depth > 1 ) {
@@ -188,7 +179,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
 
 		// update atts of this item based on any custom linkmod classes.
-		//$atts = self::update_atts_for_linkmod_type( $atts, $linkmod_classes );
+		$atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
+		
 		// Allow filtering of the $atts array before using it.
 		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
@@ -229,13 +221,12 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 * icon classes form the icon markup with an <i> element. This is
 		 * output inside of the item before the $title (the link text).
 		 */
-		//$icon_html = '';
-		/*
+		$icon_html = '';
+
 		if ( ! empty( $icon_class_string ) ) {
 			// append an <i> with the icon classes to what is output before links.
 			$icon_html = '<i class="' . esc_attr( $icon_class_string ) . '" aria-hidden="true"></i> ';
 		}
-        */
 
 		/** This filter is documented in wp-includes/post-template.php */
 		$title = apply_filters( 'the_title', $item->title, $item->ID );
@@ -252,14 +243,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
-/*
-        $item_output = $args->before;
-        $item_output .= '<a'. $attributes .'>';
-        $item_output .= $args->link_before . $title . $args->link_after;
-        $item_output .= '</a>';
-        $item_output .= $args->after;
-*/
-
 		/**
 		 * If the .sr-only class was set apply to the nav items text only.
 		 */
@@ -274,9 +257,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 */
 
 		// Put the item contents into $output.
-		//$item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';
-        $item_output .= isset( $args->link_before ) ? $args->link_before . $title . $args->link_after : '';
-
+		$item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';
 
 		/**
 		 * This is the end of the internal nav item. We need to close the
@@ -284,7 +265,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		if ( '' !== $linkmod_type ) {
 			// is linkmod, output the required element opener.
-			//$item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
+			$item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
 		} else {
 			// With no link mod type set this must be a standard <a> tag.
 			$item_output .= '</a>';
@@ -349,12 +330,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 	 *
 	 * @return array  $classes         a maybe modified array of classnames.
 	 */
-	private function separate_columns_from_classes( $classes, &$linkmod_classes, &$icon_classes, $depth ) {
+	private function separate_linkmods_and_icons_from_classes( $classes, &$linkmod_classes, &$icon_classes, $depth ) {
 		// Loop through $classes array to find linkmod or icon classes.
 		foreach ( $classes as $key => $class ) {
 			// If any special classes are found, store the class in it's
 			// holder array and and unset the item from $classes.
-/*
 			if ( preg_match( '/^disabled|^sr-only/i', $class ) ) {
 				// Test for .disabled or .sr-only classes.
 				$linkmod_classes[] = $class;
@@ -371,12 +351,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 			} elseif ( preg_match( '/^glyphicon-(\S*)?|^glyphicon(\s?)$/i', $class ) ) {
 				// Glyphicons.
 				$icon_classes[] = $class;
-				unset( $classes[ $key ] );
-			}
-*/
-			if ( preg_match( '/column.*/m', $class ) ) {
-				// Test for .column classes.
-				$linkmod_classes[] = $class;
 				unset( $classes[ $key ] );
 			}
 		}
@@ -459,7 +433,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 	 */
 	private function linkmod_element_open( $linkmod_type, $attributes = '' ) {
 		$output = '';
-/*
+
 		if ( 'dropdown-item-text' === $linkmod_type ) {
 			$output .= '<span class="dropdown-item-text"' . $attributes . '>';
 		} elseif ( 'dropdown-header' === $linkmod_type ) {
@@ -469,11 +443,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		} elseif ( 'dropdown-divider' === $linkmod_type ) {
 			// this is a divider.
 			$output .= '<div class="dropdown-divider"' . $attributes . '>';
-		}
-*/
-		if ( 'column' === $linkmod_type ) {
-			// this is a column.
-			$output .= '<div class="bmm-column"' . $attributes . '>';
 		}
 		
 		return $output;
@@ -490,7 +459,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 	 */
 	private function linkmod_element_close( $linkmod_type ) {
 		$output = '';
-/*
+
 		if ( 'dropdown-header' === $linkmod_type || 'dropdown-item-text' === $linkmod_type ) {
 			// For a header use a span with the .h6 class instead of a real
 			// header tag so that it doesn't confuse screen readers.
@@ -499,16 +468,20 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 			// this is a divider.
 			$output .= '</div>';
 		}
-*/
-
-		if ( 'column' === $linkmod_type ) {
-			// this is a column.
-			$output .= '</div>';
-		}
 
 		return $output;
 	}
 	
+	/**
+	 * Setup column classes.
+	 * 
+	 * @access private
+	 * @param mixed $classes an array of classes currently assigned to the item.
+	 * @param WP_Post  $item   Menu item data object.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 * @return void
+	 */
 	private function setup_column_classes($classes, $item, $args, $depth) {
 		if ( ! empty( $classes ) ) {
 			foreach ( $classes as $link_class ) {
@@ -523,7 +496,15 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		
 		return $classes;
 	}
-	
+
+    /**
+     * Get total columns.
+     * 
+     * @access private
+     * @param mixed $args An object of wp_nav_menu() arguments.
+     * @param mixed $item Menu item data object.
+     * @return void
+     */
     private function get_total_columns($args, $item) {   	
         $item_parent_id = $item->menu_item_parent;
         $menu_items = wp_get_nav_menu_items($args->menu->term_id);
