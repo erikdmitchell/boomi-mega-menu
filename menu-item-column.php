@@ -47,6 +47,7 @@ function boomi_menu_meta_box_column() {
     // setup columns.
     for ( $col_num = 1; $col_num <= $max_cols; $col_num++ ) :
         $column = new stdClass();
+        $column->classes = array( 'column-menu-item' );
         $column->type = 'custom';
         $column->title = "Column $col_num";
         $column->object = 'custom';
