@@ -76,10 +76,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-		// Initialize some holder variables to store specially handled item
-		// wrappers and icons.
+		// Initialize some holder variables to store specially handled item columns, wrappers and icons.
 		$linkmod_classes = array();
-		$icon_classes    = array();
+		$icon_classes = array();
 
 		/**
 		 * Get an updated $classes array without linkmod or icon classes.
@@ -153,31 +152,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		} else {
 			$atts['title'] = $item->attr_title;
 		}
-
-		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
-		$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
-		// If item has_children add atts to <a>.
-/*
-		if ( isset( $args->has_children ) && $args->has_children && 0 === $depth && $args->depth > 1 ) {
-			$atts['href']          = '#';
-			$atts['data-toggle']   = 'dropdown';
-			$atts['aria-haspopup'] = 'true';
-			$atts['aria-expanded'] = 'false';
-			$atts['class']         = 'dropdown-toggle nav-link';
-			$atts['id']            = 'menu-item-dropdown-' . $item->ID;
-		} else {
-			$atts['href'] = ! empty( $item->url ) ? $item->url : '#';
-			// Items in dropdowns use .dropdown-item instead of .nav-link.
-			if ( $depth > 0 ) {
-				$atts['class'] = 'dropdown-item';
-			} else {
-				$atts['class'] = 'nav-link';
-			}
-		}
-*/
-
-        $atts = array();
-        $atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+		
         $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
         $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
         $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
@@ -191,6 +166,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		// Build a string of html containing all the atts for the item.
 		$attributes = '';
+		
 		foreach ( $atts as $attr => $value ) {
 			if ( ! empty( $value ) ) {
 				$value       = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
