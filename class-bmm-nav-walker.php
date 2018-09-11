@@ -197,7 +197,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 			// is linkmod, output the required element opener.			
 			$item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );
         } elseif ($is_column) {
-            $item_output .= '';			
+            $item_output .= '<span>';			
 		} else {
 			// With no link mod type set this must be a standard <a> tag.
 			$item_output .= '<a' . $attributes . '>';
@@ -246,7 +246,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 			// is linkmod, output the required element opener.
 			$item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
         } elseif ($is_column) {
-            $item_output .= '';
+            $item_output .= '</span>';
 		} else {
 			// With no link mod type set this must be a standard <a> tag.
 			$item_output .= '</a>';
