@@ -76,7 +76,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-		// Initialize some holder variables to store specially handled item columns, wrappers and icons.
+		// Initialize some holder variables to store specially handled item wrappers and icons.
 		$linkmod_classes = array();
 		$icon_classes = array();
 
@@ -120,7 +120,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		// Allow filtering the classes.
 		$classes = apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth );
-        
 
 		// Form a string of classes in format: class="class_names".
 		$class_names = join( ' ', $classes );
@@ -181,6 +180,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		$linkmod_type = '';
 
 		/**
+		 * Set a typeflag to easily test if this is a column or not.
+		 */
+		$is_column = $this->is_column( $classes );
+
+		/**
 		 * START appending the internal item contents to the output.
 		 */
 		$item_output = isset( $args->before ) ? $args->before : '';
@@ -191,7 +195,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		if ( '' !== $linkmod_type ) {
 			// is linkmod, output the required element opener.			
-			$item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );			
+			$item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );
+        } elseif ($is_column) {
+            $item_output .= '';			
 		} else {
 			// With no link mod type set this must be a standard <a> tag.
 			$item_output .= '<a' . $attributes . '>';
@@ -224,21 +230,13 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		 */
 		$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
-		/**
-		 * If the .sr-only class was set apply to the nav items text only.
-		 */
-/*
-		if ( in_array( 'sr-only', $linkmod_classes, true ) ) {
-			$title         = self::wrap_for_screen_reader( $title );
-			$keys_to_unset = array_keys( $linkmod_classes, 'sr-only' );
-			foreach ( $keys_to_unset as $k ) {
-				unset( $linkmod_classes[ $k ] );
-			}
-		}
-*/
-
-		// Put the item contents into $output.
-		$item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';
+		// If col, no title/output.
+		if ($is_column) :
+		    $title = '';
+		endif;
+		
+		// Put the item contents into $output. 
+        $item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';    
 
 		/**
 		 * This is the end of the internal nav item. We need to close the
@@ -247,12 +245,12 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 		if ( '' !== $linkmod_type ) {
 			// is linkmod, output the required element opener.
 			$item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
+        } elseif ($is_column) {
+            $item_output .= '';
 		} else {
 			// With no link mod type set this must be a standard <a> tag.
 			$item_output .= '</a>';
 		}
-
-		//$item_output .= isset( $args->after ) ? $args->after : '';
 
 		/**
 		 * END appending the internal item contents to the output.
@@ -511,5 +509,20 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
        
         return count($columns);   	
 	} 
+	
+	private function is_column($classes) {
+		if ( ! empty( $classes ) ) {
+			foreach ( $classes as $link_class ) {
+				if ( ! empty( $link_class ) ) {
+					// check for special class types and set a flag for them.
+					if ( 'column-menu-item' === $link_class ) {
+                        return true;
+					}
+				}
+			}
+		}    	
+		
+		return false;
+	}	
 
 }
