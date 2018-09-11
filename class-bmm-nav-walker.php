@@ -110,7 +110,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 		// Add some additional default classes to the item.
 		$classes[] = 'menu-item-' . $item->ID;
-		//$classes[] = 'nav-item';
+		
+		// add class to primary nav.
+		if (0 === $depth) :
+    		$classes[] = 'bmm-primary-nav-item';   		
+        endif;
 
         // Setup columns if need be.
         $classes = $this->setup_column_classes($classes, $item, $args, $depth);
@@ -177,6 +181,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
         $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
         $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+        $atts['class'] = 'bmm-menu-link'; // set class for link. -- CHECK when adding icons.
 
 		// update atts of this item based on any custom linkmod classes.
 		$atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
