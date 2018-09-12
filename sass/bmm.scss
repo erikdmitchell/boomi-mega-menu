@@ -18,16 +18,6 @@
     padding: 0;
 }
 
-.bmm-sub-menu {
-    position: absolute; 
-    width: 100%;
-    z-index: 999;
-    left: 0;
-    background: #fff;
-    padding-top: 0.5rem;
-}
-
-
 .bmm-primary-nav-item {
     float: left;
     
@@ -38,15 +28,14 @@
     }
     
     & > .bmm-sub-menu {
-        //position: absolute;
+        position: absolute; 
+        width: 100%;
+        z-index: 999;
+        left: 0;
+        background: #fff;
+        padding-top: 0.5rem;
     }
 }
-
-/*
-.column-menu-item > .pmm-mega-menu-item.pmm-mega-menu-item-has-children {
-    position: relative;
-}
-*/
 
 /* transitions so that menus display for a bit after hover off */
 .menu-item.bmm-primary-nav-item > .bmm-sub-menu {
@@ -66,6 +55,11 @@
     transition-delay: 0s;
 }
 */
+
+.row-menu-item {
+    width: 100%;
+    float: left;
+}
 
 .column-menu-item {
     position: relative;

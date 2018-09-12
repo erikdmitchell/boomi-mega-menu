@@ -58,6 +58,7 @@ class BMM_Menu_Item_Row {
 
         // setup columns.
         $row = new stdClass();
+        $row->classes = array( 'row-menu-item' );
         $row->type = 'row';
         $row->title = 'Row';
         $row->object = 'custom';

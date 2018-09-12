@@ -185,6 +185,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $is_column = $this->is_column( $classes );
 
         /**
+         * Set a typeflag to easily test if this is a row or not.
+         */
+        $is_row = $this->is_row( $classes );
+
+        /**
          * START appending the internal item contents to the output.
          */
         $item_output = isset( $args->before ) ? $args->before : '';
@@ -196,8 +201,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( '' !== $linkmod_type ) {
             // is linkmod, output the required element opener.
             $item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );
-        } elseif ( $is_column ) {
-            $item_output .= '<span>';
+        } elseif ( $is_column || $is_row ) {
+            $item_output .= '';
         } else {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '<a' . $attributes . '>';
@@ -230,8 +235,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
          */
         $title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
-        // If col, no title/output.
-        if ( $is_column ) :
+        // If col or row, no title/output.
+        if ( $is_column || $is_row ) :
             $title = '';
         endif;
 
@@ -245,8 +250,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( '' !== $linkmod_type ) {
             // is linkmod, output the required element opener.
             $item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
-        } elseif ( $is_column ) {
-            $item_output .= '</span>';
+        } elseif ( $is_column || $is_row ) {
+            $item_output .= '';
         } else {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '</a>';
@@ -511,12 +516,41 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         return count( $columns );
     }
 
+    /**
+     * Is column.
+     * 
+     * @access private
+     * @param mixed $classes an array of classes currently assigned to the item.
+     * @return boolean
+     */
     private function is_column( $classes ) {
         if ( ! empty( $classes ) ) {
             foreach ( $classes as $link_class ) {
                 if ( ! empty( $link_class ) ) {
                     // check for special class types and set a flag for them.
                     if ( 'column-menu-item' === $link_class ) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Is Row.
+     * 
+     * @access private
+     * @param mixed $classes an array of classes currently assigned to the item.
+     * @return boolean
+     */
+    private function is_row( $classes ) {
+        if ( ! empty( $classes ) ) {
+            foreach ( $classes as $link_class ) {
+                if ( ! empty( $link_class ) ) {
+                    // check for special class types and set a flag for them.
+                    if ( 'row-menu-item' === $link_class ) {
                         return true;
                     }
                 }
