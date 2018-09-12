@@ -86,11 +86,11 @@ final class BMM {
      * @return void
      */
     public function init() {
-        add_action('wp_enqueue_scripts', array($this, 'frontend_scripts_styles'));
+        add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
     }
-    
+
     public function frontend_scripts_styles() {
-        wp_enqueue_style('bmm-style', BMM_URL.'sass/bmm.css', '', $this->version);
+        wp_enqueue_style( 'bmm-style', BMM_URL . 'sass/bmm.css', '', $this->version );
     }
 
     /**
