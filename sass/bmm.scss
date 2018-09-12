@@ -70,6 +70,14 @@
     transition: visibility 0s linear 0s, opacity 200ms;
 }
 
+.bmm-tabpane {
+    visibility: hidden;
+    width: 100%;
+    text-align: left;
+    opacity: 0;
+    transition-delay: 0.4s;
+}
+
 /*
 .pmm-mega-menu-item.has-tabpane:hover>.pmm-mega-sub-menu.pmm-mega-sub-menu-tabpane  {
     transition-delay: 0s;
@@ -116,16 +124,6 @@
         padding-right: 0;
     }
 }
-
-/*
-.pmm-mega-sub-menu-tabpane {
-    visibility: hidden;
-    width: 100%;
-    text-align: left;
-    opacity: 0;
-    transition-delay: 0.4s;
-}
-*/
 
 
 // icon menu items.
