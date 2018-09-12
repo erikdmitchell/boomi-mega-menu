@@ -89,7 +89,7 @@ gulp.task('sass', function () {
         .pipe(sourcemaps.init())
         .pipe(sass({
             errLogToConsole: true,
-            outputStyle: 'nested',
+            outputStyle: 'expanded',
             precision: 10
         }))
         .pipe(sourcemaps.write({
