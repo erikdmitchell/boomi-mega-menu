@@ -74,8 +74,8 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'), // JSHint plugin
     stylish = require('jshint-stylish'), // JSHint Stylish plugin
     stylelint = require('gulp-stylelint'), // stylelint plugin
-    phpcs = require('gulp-phpcs'); // Gulp plugin for running PHP Code Sniffer.
-    phpcbf = require('gulp-phpcbf'); // PHP Code Beautifier
+    phpcs = require('gulp-phpcs'), // Gulp plugin for running PHP Code Sniffer.
+    phpcbf = require('gulp-phpcbf'), // PHP Code Beautifier
     gutil = require('gulp-util'); // gulp util
 
 /**
