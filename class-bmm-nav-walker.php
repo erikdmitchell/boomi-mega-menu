@@ -34,8 +34,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         // Default class to add to the file.
         $classes = array( 'bmm-sub-menu' );
-        
-        if (3 == $depth) :
+
+        if ( 3 == $depth ) :
             $classes[] = 'bmm-tabpane';
         endif;
 
@@ -522,7 +522,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
     /**
      * Is column.
-     * 
+     *
      * @access private
      * @param mixed $classes an array of classes currently assigned to the item.
      * @return boolean
@@ -544,7 +544,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
     /**
      * Is Row.
-     * 
+     *
      * @access private
      * @param mixed $classes an array of classes currently assigned to the item.
      * @return boolean
