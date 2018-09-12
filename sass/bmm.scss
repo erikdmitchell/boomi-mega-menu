@@ -70,15 +70,6 @@
     transition: visibility 0s linear 0s, opacity 200ms;
 }
 
-.bmm-sub-menu-level-3 {
-    position: absolute; 
-    width: 100%;
-    z-index: 999;
-    left: 0;
-    background: #fff;
-    padding-top: 0.5rem;
-}
-
 /*
 .pmm-mega-menu-item.has-tabpane:hover>.pmm-mega-sub-menu.pmm-mega-sub-menu-tabpane  {
     transition-delay: 0s;
@@ -129,6 +120,10 @@
     }
     &.total-columns-6 {
         width: 15%;
+        
+        & > .bmm-sub-menu {
+            width: calc(115% * 6);
+        }
     }
     &.total-columns-7 {
         width: 12.571428%;
