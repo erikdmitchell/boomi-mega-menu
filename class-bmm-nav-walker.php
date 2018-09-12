@@ -34,6 +34,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         // Default class to add to the file.
         $classes = array( 'bmm-sub-menu' );
+        
+        $classes[] = "bmm-sub-menu-level-$depth";
 
         /**
          * Filters the CSS class(es) applied to a menu list element.
