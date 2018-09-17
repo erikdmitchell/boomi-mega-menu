@@ -80,15 +80,17 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         $classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-        // Initialize some holder variables to store specially handled icons.
+        // Initialize some holder variables to store specially handled item wrappers and icons.
+        $linkmod_classes = array();
         $icon_classes = array();
 
         /**
-         * Get an updated $classes array without icon classes.
+         * Get an updated $classes array without linkmod or icon classes.
          *
-         * NOTE: icon class arrays are passed by reference and are maybe modified before being used later in this function.
+         * NOTE: linkmod and icon class arrays are passed by reference and
+         * are maybe modified before being used later in this function.
          */
-        $classes = $this->separate_icons_from_classes( $classes, $icon_classes, $depth );
+        $classes = $this->separate_linkmods_and_icons_from_classes( $classes, $linkmod_classes, $icon_classes, $depth );
 
         // Join any icon classes plucked from $classes into a string.
         $icon_class_string = join( ' ', $icon_classes );
@@ -158,6 +160,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $atts['href']   = ! empty( $item->url ) ? $item->url : '';
         $atts['class'] = 'bmm-menu-link'; // set class for link. -- CHECK when adding icons.
 
+        // update atts of this item based on any custom linkmod classes.
+        $atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
+
         // Allow filtering of the $atts array before using it.
         $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
@@ -170,6 +175,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
                 $attributes .= ' ' . $attr . '="' . $value . '"';
             }
         }
+        
+        /**
+         * Set a typeflag to easily test if this is a linkmod or not.
+         */
+        $linkmod_type = $this->get_linkmod_type( $linkmod_classes );        
 
         /**
          * Set a typeflag to easily test if this is a column or not.
@@ -187,12 +197,12 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $item_output = isset( $args->before ) ? $args->before : '';
 
         /**
-         * This is the start of the internal nav item. Depending on what kind of mod we have we may need different wrapper elements.
+         * This is the start of the internal nav item. Depending on what kind of linkmod we have we may need different wrapper elements.
          */
         if ( $is_column || $is_row ) {
             $item_output .= '';
         } else {
-            // Standard <a> tag.
+            // With no link mod type set this must be a standard <a> tag.
             $item_output .= '<a' . $attributes . '>';
         }
 
@@ -205,7 +215,15 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         if ( ! empty( $icon_class_string ) ) {
             // append an <i> with the icon classes to what is output before links.
-            $icon_html = '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i> ';
+            $icon_before = '';
+            $icon_after = '';
+            
+            if ('icon-wrapper' === $linkmod_type) :
+                $icon_before = '<span class="bmm-icon-wrapper">';
+                $icon_after = '</span>';
+            endif;
+            
+            $icon_html = $icon_before . '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i>' . $icon_after;
         }
 
         /** This filter is documented in wp-includes/post-template.php */
@@ -240,7 +258,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '</a>';
         }
-
         /**
          * END appending the internal item contents to the output.
          */
@@ -280,25 +297,32 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
     }
 
     /**
-     * Find any custom icon classes and store in their holder arrays then remove them from the main classes array.
+     * Find any custom linkmod or icon classes and store in their holder arrays then remove them from the main classes array.
      *
-     * Supported iconsets: Font Awesome 4/5, Glyphicons, Fontboomi.
+     * Supported linkmods: .icon-wrapper
+     * Supported iconsets: Font Awesome 4/5, Glypicons, Font Boomi
      *
-     * NOTE: This accepts icon arrays by reference.
+     * NOTE: This accepts the linkmod and icon arrays by reference.
      *
      * @since 4.0.0
      *
      * @param array   $classes         an array of classes currently assigned to the item.
+     * @param array   $linkmod_classes an array to hold linkmod classes.
      * @param array   $icon_classes    an array to hold icon classes.
      * @param integer $depth           an integer holding current depth level.
      *
      * @return array  $classes         a maybe modified array of classnames.
      */
-    private function separate_icons_from_classes( $classes, &$icon_classes, $depth ) {
-        // Loop through $classes array to find icon classes.
+    private function separate_linkmods_and_icons_from_classes( $classes, &$linkmod_classes, &$icon_classes, $depth ) {
+        // Loop through $classes array to find linkmod or icon classes.
         foreach ( $classes as $key => $class ) {
-            // If any special classes are found, store the class in it's holder array and and unset the item from $classes.
-            if ( preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
+            // If any special classes are found, store the class in it's
+            // holder array and and unset the item from $classes.
+            if ( preg_match( '/^icon-wrapper/i', $class ) ) {
+                // Test for .icon-wrapper.
+                $linkmod_classes[] = $class;
+                unset( $classes[ $key ] );
+            } elseif ( preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
                 // Font Awesome.
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
@@ -307,13 +331,118 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
             } elseif ( preg_match( '/^fb-(\S*)?|^fb(s|r|l|b)?(\s?)?$/i', $class ) ) {
-                // Fontboomi.
+                // Font boomi.
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
             }
         }
 
         return $classes;
+    }
+
+    /**
+     * Return a string containing a linkmod type and update $atts array
+     * accordingly depending on the decided.
+     *
+     * @since 4.0.0
+     *
+     * @param array $linkmod_classes array of any link modifier classes.
+     *
+     * @return string empty for default, a linkmod type string otherwise.
+     */
+    private function get_linkmod_type( $linkmod_classes = array() ) {
+        $linkmod_type = '';
+
+        // Loop through array of linkmod classes to handle their $atts.
+        if ( ! empty( $linkmod_classes ) ) {
+            foreach ( $linkmod_classes as $link_class ) {
+                if ( ! empty( $link_class ) ) {
+                    // check for special class types and set a flag for them.
+                    if ( 'icon-wrapper' === $link_class ) {
+                        $linkmod_type = 'icon-wrapper';
+                    }
+                }
+            }
+        }
+        return $linkmod_type;
+    }
+
+    /**
+     * Update the attributes of a nav item depending on the limkmod classes.
+     *
+     * @since 4.0.0
+     *
+     * @param array $atts            array of atts for the current link in nav item.
+     * @param array $linkmod_classes an array of classes that modify link or nav item behaviors or displays.
+     *
+     * @return array                 maybe updated array of attributes for item.
+     */
+    private function update_atts_for_linkmod_type( $atts = array(), $linkmod_classes = array() ) {
+        if ( ! empty( $linkmod_classes ) ) {
+            foreach ( $linkmod_classes as $link_class ) {
+                if ( ! empty( $link_class ) ) {
+                    // update $atts with a space and the extra classname... so long as it's not a sr-only class.
+/*
+                    if ( 'sr-only' !== $link_class ) {
+                        $atts['class'] .= ' ' . esc_attr( $link_class );
+                    }
+                    // check for special class types we need additional handling for.
+                    if ( 'disabled' === $link_class ) {
+                        // Convert link to '#' and unset open targets.
+                        $atts['href'] = '#';
+                        unset( $atts['target'] );
+                    } elseif ( 'dropdown-header' === $link_class || 'dropdown-divider' === $link_class || 'dropdown-item-text' === $link_class ) {
+                        // Store a type flag and unset href and target.
+                        unset( $atts['href'] );
+                        unset( $atts['target'] );
+                    }
+*/
+                }
+            }
+        }
+        
+        return $atts;
+    }
+
+    /**
+     * Returns the correct opening element and attributes for a linkmod.
+     *
+     * @since 4.0.0
+     *
+     * @param string $linkmod_type a sting containing a linkmod type flag.
+     * @param string $attributes   a string of attributes to add to the element.
+     *
+     * @return string              a string with the openign tag for the element with attribibutes added.
+     */
+    private function linkmod_element_open( $linkmod_type, $attributes = '' ) {
+        $output = '';
+
+        if ( 'icon-wrapper' === $linkmod_type ) {
+            $output .= '<span class="icon-wrapper"' . $attributes . '>';
+        }
+
+        return $output;
+    }
+
+    /**
+     * Return the correct closing tag for the linkmod element.
+     *
+     * @since 4.0.0
+     *
+     * @param string $linkmod_type a string containing a special linkmod type.
+     *
+     * @return string              a string with the closing tag for this linkmod type.
+     */
+    private function linkmod_element_close( $linkmod_type ) {
+        $output = '';
+
+        if ( 'icon-wrapper' === $linkmod_type ) {
+            // For a header use a span with the .h6 class instead of a real
+            // header tag so that it doesn't confuse screen readers.
+            $output .= '</span>';
+        }
+
+        return $output;
     }
 
     /**
