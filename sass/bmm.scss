@@ -84,8 +84,8 @@
         &.total-columns-6 {
             width: 15%;
             
-            & > .bmm-sub-menu {
-                //width: calc(115% * 6);
+            .bmm-tabpane {
+                width: calc(115% * 6);
             }
         }
         &.total-columns-7 {
@@ -211,7 +211,8 @@
 }
 */
 
-#menu-item-5 > .bmm-sub-menu {
+#menu-item-5 > .bmm-sub-menu,
+#menu-item-26 > .bmm-sub-menu {
     visibility: visible;
     opacity: 1;
 }
