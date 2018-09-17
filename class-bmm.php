@@ -67,7 +67,7 @@ final class BMM {
      * @return void
      */
     public function includes() {
-        include_once( BMM_PATH . 'class-bmm-menu-item-column' );        
+        include_once( BMM_PATH . 'class-bmm-menu-item-column.php' );        
         include_once( BMM_PATH . 'class-bmm-menu-item-row.php' );
         include_once( BMM_PATH . 'class-bmm-nav-walker.php' );
     }
@@ -90,7 +90,14 @@ final class BMM {
         add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts_styles' ) );
     }
 
+    /**
+     * Frontend scripts and styles.
+     * 
+     * @access public
+     * @return void
+     */
     public function frontend_scripts_styles() {
+        wp_enqueue_style('fontboomi', BMM_URL.'font-boomi/css/fontboomi.css', '', '1.0.0');
         wp_enqueue_style( 'bmm-style', BMM_URL . 'sass/bmm.css', '', $this->version );
     }
 
