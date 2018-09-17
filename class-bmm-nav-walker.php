@@ -146,8 +146,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         // initialize array for holding the $atts for the link item.
         $atts = array();
 
-        // Set title from item to the $atts array - if title is empty then
-        // default to item title.
+        // Set title from item to the $atts array - if title is empty then default to item title.
         if ( empty( $item->attr_title ) ) {
             $atts['title'] = ! empty( $item->title ) ? strip_tags( $item->title ) : '';
         } else {
@@ -176,12 +175,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         }
 
         /**
-         * Set a typeflag to easily test if this is a linkmod or not.
-         */
-        // $linkmod_type = $this->get_linkmod_type( $linkmod_classes );
-        //$linkmod_type = '';
-
-        /**
          * Set a typeflag to easily test if this is a column or not.
          */
         $is_column = $this->is_column( $classes );
@@ -204,18 +197,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         } else {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '<a' . $attributes . '>';
-        }         
-/*
-        if ( '' !== $linkmod_type ) {
-            // is linkmod, output the required element opener.
-            $item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );
-        } elseif ( $is_column || $is_row ) {
-            $item_output .= '';
-        } else {
-            // With no link mod type set this must be a standard <a> tag.
-            $item_output .= '<a' . $attributes . '>';
         }
-*/
 
         /**
          * Initiate empty icon var, then if we have a string containing any
@@ -261,17 +243,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '</a>';
         }
-/*
-        if ( '' !== $linkmod_type ) {
-            // is linkmod, output the required element opener.
-            $item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
-        } elseif ( $is_column || $is_row ) {
-            $item_output .= '';
-        } else {
-            // With no link mod type set this must be a standard <a> tag.
-            $item_output .= '</a>';
-        }
-*/
 
         /**
          * END appending the internal item contents to the output.
@@ -348,128 +319,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         return $classes;
     }
-
-    /**
-     * Return a string containing a linkmod type and update $atts array
-     * accordingly depending on the decided.
-     *
-     * @since 4.0.0
-     *
-     * @param array $linkmod_classes array of any link modifier classes.
-     *
-     * @return string empty for default, a linkmod type string otherwise.
-     */
-/*
-    private function get_linkmod_type( $linkmod_classes = array() ) {
-        $linkmod_type = '';
-
-        // Loop through array of linkmod classes to handle their $atts.
-        if ( ! empty( $linkmod_classes ) ) {
-            foreach ( $linkmod_classes as $link_class ) {
-                if ( ! empty( $link_class ) ) {
-
-                    // check for special class types and set a flag for them.
-                    if ( 'column-menu-item' === $link_class ) {
-                        $linkmod_type = 'column';
-                    }
-                }
-            }
-        }
-        return $linkmod_type;
-    }
-*/
-
-    /**
-     * Update the attributes of a nav item depending on the limkmod classes.
-     *
-     * @since 4.0.0
-     *
-     * @param array $atts            array of atts for the current link in nav item.
-     * @param array $linkmod_classes an array of classes that modify link or nav item behaviors or displays.
-     *
-     * @return array                 maybe updated array of attributes for item.
-     */
-/*
-    private function update_atts_for_linkmod_type( $atts = array(), $linkmod_classes = array() ) {
-        if ( ! empty( $linkmod_classes ) ) {
-            foreach ( $linkmod_classes as $link_class ) {
-                if ( ! empty( $link_class ) ) {
-                    // update $atts with a space and the extra classname...
-                    // so long as it's not a sr-only class.
-                    if ( 'sr-only' !== $link_class ) {
-                        $atts['class'] .= ' ' . esc_attr( $link_class );
-                    }
-                    // check for special class types we need additional handling for.
-                    if ( 'disabled' === $link_class ) {
-                        // Convert link to '#' and unset open targets.
-                        $atts['href'] = '#';
-                        unset( $atts['target'] );
-                    } elseif ( 'dropdown-header' === $link_class || 'dropdown-divider' === $link_class || 'dropdown-item-text' === $link_class ) {
-                        // Store a type flag and unset href and target.
-                        unset( $atts['href'] );
-                        unset( $atts['target'] );
-                    }
-                }
-            }
-        }
-        return $atts;
-    }
-*/
-
-    /**
-     * Returns the correct opening element and attributes for a linkmod.
-     *
-     * @since 4.0.0
-     *
-     * @param string $linkmod_type a sting containing a linkmod type flag.
-     * @param string $attributes   a string of attributes to add to the element.
-     *
-     * @return string              a string with the openign tag for the element with attribibutes added.
-     */
-/*
-    private function linkmod_element_open( $linkmod_type, $attributes = '' ) {
-        $output = '';
-
-        if ( 'dropdown-item-text' === $linkmod_type ) {
-            $output .= '<span class="dropdown-item-text"' . $attributes . '>';
-        } elseif ( 'dropdown-header' === $linkmod_type ) {
-            // For a header use a span with the .h6 class instead of a real
-            // header tag so that it doesn't confuse screen readers.
-            $output .= '<span class="dropdown-header h6"' . $attributes . '>';
-        } elseif ( 'dropdown-divider' === $linkmod_type ) {
-            // this is a divider.
-            $output .= '<div class="dropdown-divider"' . $attributes . '>';
-        }
-
-        return $output;
-    }
-*/
-
-    /**
-     * Return the correct closing tag for the linkmod element.
-     *
-     * @since 4.0.0
-     *
-     * @param string $linkmod_type a string containing a special linkmod type.
-     *
-     * @return string              a string with the closing tag for this linkmod type.
-     */
-/*
-    private function linkmod_element_close( $linkmod_type ) {
-        $output = '';
-
-        if ( 'dropdown-header' === $linkmod_type || 'dropdown-item-text' === $linkmod_type ) {
-            // For a header use a span with the .h6 class instead of a real
-            // header tag so that it doesn't confuse screen readers.
-            $output .= '</span>';
-        } elseif ( 'dropdown-divider' === $linkmod_type ) {
-            // this is a divider.
-            $output .= '</div>';
-        }
-
-        return $output;
-    }
-*/
 
     /**
      * Setup column classes.
