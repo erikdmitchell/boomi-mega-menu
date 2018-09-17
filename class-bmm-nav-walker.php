@@ -158,9 +158,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $atts['href']   = ! empty( $item->url ) ? $item->url : '';
         $atts['class'] = 'bmm-menu-link'; // set class for link. -- CHECK when adding icons.
 
-        // update atts of this item based on any custom linkmod classes.
-        //$atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
-
         // Allow filtering of the $atts array before using it.
         $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
 
@@ -190,12 +187,12 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $item_output = isset( $args->before ) ? $args->before : '';
 
         /**
-         * This is the start of the internal nav item. Depending on what kind of linkmod we have we may need different wrapper elements.
+         * This is the start of the internal nav item. Depending on what kind of mod we have we may need different wrapper elements.
          */
         if ( $is_column || $is_row ) {
             $item_output .= '';
         } else {
-            // With no link mod type set this must be a standard <a> tag.
+            // Standard <a> tag.
             $item_output .= '<a' . $attributes . '>';
         }
 
@@ -208,7 +205,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         if ( ! empty( $icon_class_string ) ) {
             // append an <i> with the icon classes to what is output before links.
-            $icon_html = '<i class="' . esc_attr( $icon_class_string ) . '" aria-hidden="true"></i> ';
+            $icon_html = '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i> ';
         }
 
         /** This filter is documented in wp-includes/post-template.php */
