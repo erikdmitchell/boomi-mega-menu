@@ -247,6 +247,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( $is_column || $is_row ) :
             $title = '';
         endif;
+        
+        // tweak for grid icons.
+        if ('grid-icon' === $linkmod_type) {
+            $title = '<div class="grid-icon-title">'.$title.'</div>';
+        }        
 
         // Put the item contents into $output.
         $item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';

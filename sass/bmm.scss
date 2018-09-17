@@ -151,7 +151,7 @@
             
             .grid-icon {
                 flex-grow: 1;
-                width: 18.4%;
+                //width: 18.4%;
                 text-align: center;
                 margin-right: 2%;
                 
@@ -176,16 +176,14 @@
                             background-image: url('http://via.placeholder.com/150x150/e3e3e3/000000?text=icon');
                         }
                         
-    /*
-                        &.is-icon {
-                            font-size: 80px;
-                            color: $dell-blue;
-                        }
-    */  
-                        
                         &:hover {
                             transform: translateY(-8px);
                         }                     
+                    }
+                    
+                    .grid-icon-title {
+                        font-size: 0.9em;
+                        margin-top: -8px;
                     }
                 }
             }
