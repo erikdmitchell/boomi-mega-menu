@@ -29,7 +29,7 @@ class BMM_Menu_Item_Column {
      * @return void
      */
     public function add_menu_meta_box( $object ) {
-        add_meta_box( 'boomi-menu-metabox-column', __( 'Columns', 'boomi-mega-menu' ), array($this, 'menu_meta_box'), 'nav-menus', 'side', 'default' );
+        add_meta_box( 'boomi-menu-metabox-column', __( 'Columns', 'boomi-mega-menu' ), array( $this, 'menu_meta_box' ), 'nav-menus', 'side', 'default' );
     }
 
     /**
@@ -40,14 +40,14 @@ class BMM_Menu_Item_Column {
      */
     public function menu_meta_box() {
         global $_nav_menu_placeholder, $nav_menu_selected_id;
-    
+
         $_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
-    
+
         $max_cols = 6;
-    
+
         // setup walker.
         $db_fields = false;
-    
+
         // If your links will be hieararchical, adjust the $db_fields array below.
         if ( false ) {
             $db_fields = array(
@@ -55,9 +55,9 @@ class BMM_Menu_Item_Column {
                 'id' => 'post_parent',
             );
         }
-    
+
         $walker = new Walker_Nav_Menu_Checklist( $db_fields );
-    
+
         // setup columns.
         for ( $col_num = 1; $col_num <= $max_cols; $col_num++ ) :
             $column = new stdClass();
@@ -67,7 +67,7 @@ class BMM_Menu_Item_Column {
             $column->object = 'custom';
             $column->url = '#';
             $column->object_id = -1;
-    
+
             $columns[] = $column;
         endfor;
         ?>

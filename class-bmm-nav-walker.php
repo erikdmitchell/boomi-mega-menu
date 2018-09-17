@@ -279,7 +279,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
     }
 
-
     /**
      * Find any custom icon classes and store in their holder arrays then remove them from the main classes array.
      *
@@ -299,7 +298,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         // Loop through $classes array to find icon classes.
         foreach ( $classes as $key => $class ) {
             // If any special classes are found, store the class in it's holder array and and unset the item from $classes.
-            if (  preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
+            if ( preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
                 // Font Awesome.
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
