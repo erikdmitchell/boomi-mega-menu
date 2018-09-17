@@ -80,17 +80,15 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         $classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-        // Initialize some holder variables to store specially handled item wrappers and icons.
-        $linkmod_classes = array();
+        // Initialize some holder variables to store specially handled icons.
         $icon_classes = array();
 
         /**
-         * Get an updated $classes array without linkmod or icon classes.
+         * Get an updated $classes array without icon classes.
          *
-         * NOTE: linkmod and icon class arrays are passed by reference and
-         * are maybe modified before being used later in this function.
+         * NOTE: icon class arrays are passed by reference and are maybe modified before being used later in this function.
          */
-        $classes = $this->separate_linkmods_and_icons_from_classes( $classes, $linkmod_classes, $icon_classes, $depth );
+        $classes = $this->separate_icons_from_classes( $classes, $icon_classes, $depth );
 
         // Join any icon classes plucked from $classes into a string.
         $icon_class_string = join( ' ', $icon_classes );
@@ -162,7 +160,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $atts['class'] = 'bmm-menu-link'; // set class for link. -- CHECK when adding icons.
 
         // update atts of this item based on any custom linkmod classes.
-        $atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
+        //$atts = $this->update_atts_for_linkmod_type( $atts, $linkmod_classes );
 
         // Allow filtering of the $atts array before using it.
         $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
@@ -181,7 +179,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
          * Set a typeflag to easily test if this is a linkmod or not.
          */
         // $linkmod_type = $this->get_linkmod_type( $linkmod_classes );
-        $linkmod_type = '';
+        //$linkmod_type = '';
 
         /**
          * Set a typeflag to easily test if this is a column or not.
@@ -199,9 +197,15 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $item_output = isset( $args->before ) ? $args->before : '';
 
         /**
-         * This is the start of the internal nav item. Depending on what
-         * kind of linkmod we have we may need different wrapper elements.
+         * This is the start of the internal nav item. Depending on what kind of linkmod we have we may need different wrapper elements.
          */
+        if ( $is_column || $is_row ) {
+            $item_output .= '';
+        } else {
+            // With no link mod type set this must be a standard <a> tag.
+            $item_output .= '<a' . $attributes . '>';
+        }         
+/*
         if ( '' !== $linkmod_type ) {
             // is linkmod, output the required element opener.
             $item_output .= $this->linkmod_element_open( $linkmod_type, $attributes );
@@ -211,6 +215,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '<a' . $attributes . '>';
         }
+*/
 
         /**
          * Initiate empty icon var, then if we have a string containing any
@@ -248,9 +253,15 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';
 
         /**
-         * This is the end of the internal nav item. We need to close the
-         * correct element depending on the type of link or link mod.
+         * This is the end of the internal nav item. We need to close the correct element depending on the type of link or link mod.
          */
+        if ( $is_column || $is_row ) {
+            $item_output .= '';
+        } else {
+            // With no link mod type set this must be a standard <a> tag.
+            $item_output .= '</a>';
+        }
+/*
         if ( '' !== $linkmod_type ) {
             // is linkmod, output the required element opener.
             $item_output .= $this->linkmod_element_close( $linkmod_type, $attributes );
@@ -260,6 +271,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             // With no link mod type set this must be a standard <a> tag.
             $item_output .= '</a>';
         }
+*/
 
         /**
          * END appending the internal item contents to the output.
@@ -301,43 +313,34 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
 
     /**
-     * Find any custom linkmod or icon classes and store in their holder
-     * arrays then remove them from the main classes array.
+     * Find any custom icon classes and store in their holder arrays then remove them from the main classes array.
      *
-     * Supported linkmods: .disabled, .dropdown-header, .dropdown-divider, .sr-only
-     * Supported iconsets: Font Awesome 4/5, Glypicons
+     * Supported iconsets: Font Awesome 4/5, Glyphicons, Fontboomi.
      *
-     * NOTE: This accepts the linkmod and icon arrays by reference.
+     * NOTE: This accepts icon arrays by reference.
      *
      * @since 4.0.0
      *
      * @param array   $classes         an array of classes currently assigned to the item.
-     * @param array   $linkmod_classes an array to hold linkmod classes.
      * @param array   $icon_classes    an array to hold icon classes.
      * @param integer $depth           an integer holding current depth level.
      *
      * @return array  $classes         a maybe modified array of classnames.
      */
-    private function separate_linkmods_and_icons_from_classes( $classes, &$linkmod_classes, &$icon_classes, $depth ) {
-        // Loop through $classes array to find linkmod or icon classes.
+    private function separate_icons_from_classes( $classes, &$icon_classes, $depth ) {
+        // Loop through $classes array to find icon classes.
         foreach ( $classes as $key => $class ) {
-            // If any special classes are found, store the class in it's
-            // holder array and and unset the item from $classes.
-            if ( preg_match( '/^disabled|^sr-only/i', $class ) ) {
-                // Test for .disabled or .sr-only classes.
-                $linkmod_classes[] = $class;
-                unset( $classes[ $key ] );
-            } elseif ( preg_match( '/^dropdown-header|^dropdown-divider|^dropdown-item-text/i', $class ) && $depth > 0 ) {
-                // Test for .dropdown-header or .dropdown-divider and a
-                // depth greater than 0 - IE inside a dropdown.
-                $linkmod_classes[] = $class;
-                unset( $classes[ $key ] );
-            } elseif ( preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
+            // If any special classes are found, store the class in it's holder array and and unset the item from $classes.
+            if (  preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
                 // Font Awesome.
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
             } elseif ( preg_match( '/^glyphicon-(\S*)?|^glyphicon(\s?)$/i', $class ) ) {
                 // Glyphicons.
+                $icon_classes[] = $class;
+                unset( $classes[ $key ] );
+            } elseif ( preg_match( '/^fb-(\S*)?|^fb(s|r|l|b)?(\s?)?$/i', $class ) ) {
+                // Fontboomi.
                 $icon_classes[] = $class;
                 unset( $classes[ $key ] );
             }
@@ -356,6 +359,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
      *
      * @return string empty for default, a linkmod type string otherwise.
      */
+/*
     private function get_linkmod_type( $linkmod_classes = array() ) {
         $linkmod_type = '';
 
@@ -373,6 +377,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         }
         return $linkmod_type;
     }
+*/
 
     /**
      * Update the attributes of a nav item depending on the limkmod classes.
@@ -384,6 +389,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
      *
      * @return array                 maybe updated array of attributes for item.
      */
+/*
     private function update_atts_for_linkmod_type( $atts = array(), $linkmod_classes = array() ) {
         if ( ! empty( $linkmod_classes ) ) {
             foreach ( $linkmod_classes as $link_class ) {
@@ -408,6 +414,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         }
         return $atts;
     }
+*/
 
     /**
      * Returns the correct opening element and attributes for a linkmod.
@@ -419,6 +426,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
      *
      * @return string              a string with the openign tag for the element with attribibutes added.
      */
+/*
     private function linkmod_element_open( $linkmod_type, $attributes = '' ) {
         $output = '';
 
@@ -435,6 +443,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         return $output;
     }
+*/
 
     /**
      * Return the correct closing tag for the linkmod element.
@@ -445,6 +454,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
      *
      * @return string              a string with the closing tag for this linkmod type.
      */
+/*
     private function linkmod_element_close( $linkmod_type ) {
         $output = '';
 
@@ -459,6 +469,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         return $output;
     }
+*/
 
     /**
      * Setup column classes.
