@@ -268,39 +268,6 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
     }
 
     /**
-     * Traverse elements to create list from elements.
-     *
-     * Display one element if the element doesn't have any children otherwise,
-     * display the element and its children. Will only traverse up to the max
-     * depth and no ignore elements under that depth. It is possible to set the
-     * max depth to include all depths, see walk() method.
-     *
-     * This method should not be called directly, use the walk() method instead.
-     *
-     * @since WP 2.5.0
-     *
-     * @see Walker::start_lvl()
-     *
-     * @param object $element           Data object.
-     * @param array  $children_elements List of elements to continue traversing (passed by reference).
-     * @param int    $max_depth         Max depth to traverse.
-     * @param int    $depth             Depth of current element.
-     * @param array  $args              An array of arguments.
-     * @param string $output            Used to append additional content (passed by reference).
-     */
-/*
-    public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
-        if ( ! $element ) {
-            return; }
-        $id_field = $this->db_fields['id'];
-        // Display this element.
-        if ( is_object( $args[0] ) ) {
-            $args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] ); }
-        parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
-    }
-*/
-
-    /**
      * Find any custom linkmod or icon classes and store in their holder arrays then remove them from the main classes array.
      *
      * Supported linkmods: .icon-wrapper
