@@ -133,7 +133,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform ease-in-out 0.25s;           
+            transition: transform ease-in-out 0.25s; 
+            margin-bottom: 10px;          
             
             .bmm-icon {
                 font-size: 2rem;
@@ -141,14 +142,7 @@
                     display: inherit;
                 }
             }
-/*
-
-
-        .pmm-menu-icon-wrapper {
             
-
-
-*/            
         }        
     }
     
@@ -160,80 +154,6 @@
         transition-delay: 0.4s;
     }    
 }
-
-
-
-/*
-.pmm-mega-menu-item.has-tabpane:hover>.pmm-mega-sub-menu.pmm-mega-sub-menu-tabpane  {
-    transition-delay: 0s;
-}
-*/
-
-// icon menu items.
-/*
-
-
-// platform wheel.
-.pmm-mega-menu .pmm-mega-sub-menu>.pmm-mega-menu-item.platform-wheel {
-    background-color: $color__submenu-background-color;
-    text-align: center;
-    &:hover>a {
-        background-color: $white;
-    }
-    >.pmm-mega-menu-link {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    .pmm-mega-menu-link {
-        &:hover {
-            .pmm-menu-icon-wrapper {
-                transform: translateY(-8px); // box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            }
-        }
-        .platform-wheel-wrapper {
-            transition: transform ease-in-out 0.25s;
-            #elements-of-platform {
-                height: auto;
-                .icon {
-                    display: none;
-                }
-                .element {
-                    fill-opacity: 1;
-                }
-                #hub {
-                    .element {
-                        fill: rgba($hub, 1);
-                    }
-                }
-                #flow {
-                    .element {
-                        fill: rgba($flow, 1);
-                    }
-                }
-                #exchange {
-                    .element {
-                        fill: rgba($exchange, 1);
-                    }
-                }
-                #mediate {
-                    .element {
-                        fill: rgba($mediate, 1);
-                    }
-                }
-                #integrate {
-                    .element {
-                        fill: rgba($integrate, 1);
-                    }
-                }
-            }
-        }
-    }
-    .pmm-nav-icon-title {
-        margin-top: -1px;
-    }
-}
-*/
-
 
 // grid icons.
 /*
