@@ -57,74 +57,85 @@
     width: auto;
 }
 
-/* transitions so that menus display for a bit after hover off */
-.menu-item.bmm-primary-nav-item > .bmm-sub-menu {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s linear 200ms, opacity 200ms;
+.bmm-menu {
+    .row-menu-item {
+        width: 100%;
+        float: left;
+    }
+    
+    .column-menu-item {
+        position: relative;
+        width: 100%;
+        float: left;
+        padding-right: 2%;
+        
+        &.total-columns-2 {
+            width: 49%;
+        }
+        &.total-columns-3 {
+            width: 32%;
+        }
+        &.total-columns-4 {
+            width: 23.5%;
+        }
+        &.total-columns-5 {
+            width: 18.4%;
+        }
+        &.total-columns-6 {
+            width: 15%;
+            
+            & > .bmm-sub-menu {
+                width: calc(115% * 6);
+            }
+        }
+        &.total-columns-7 {
+            width: 12.571428%;
+        }
+        &.total-columns-8 {
+            width: 10.75%;
+        }
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+    
+    /* transitions so that menus display for a bit after hover off */
+    .menu-item {
+        &.bmm-primary-nav-item > .bmm-sub-menu {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s linear 200ms, opacity 200ms;
+        }
+        
+        &:hover > .bmm-sub-menu {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s linear 0s, opacity 200ms;
+        }
+
+        .bmm-icon {
+            &:before {
+                display: table;
+            }
+        }        
+    }
+    
+    .bmm-tabpane {
+        visibility: hidden;
+        width: 100%;
+        text-align: left;
+        opacity: 0;
+        transition-delay: 0.4s;
+    }    
 }
 
-.menu-item:hover > .bmm-sub-menu {
-    visibility: visible;
-    opacity: 1;
-    transition: visibility 0s linear 0s, opacity 200ms;
-}
 
-.bmm-tabpane {
-    visibility: hidden;
-    width: 100%;
-    text-align: left;
-    opacity: 0;
-    transition-delay: 0.4s;
-}
 
 /*
 .pmm-mega-menu-item.has-tabpane:hover>.pmm-mega-sub-menu.pmm-mega-sub-menu-tabpane  {
     transition-delay: 0s;
 }
 */
-
-.row-menu-item {
-    width: 100%;
-    float: left;
-}
-
-.column-menu-item {
-    position: relative;
-    width: 100%;
-    float: left;
-    padding-right: 2%;
-    
-    &.total-columns-2 {
-        width: 49%;
-    }
-    &.total-columns-3 {
-        width: 32%;
-    }
-    &.total-columns-4 {
-        width: 23.5%;
-    }
-    &.total-columns-5 {
-        width: 18.4%;
-    }
-    &.total-columns-6 {
-        width: 15%;
-        
-        & > .bmm-sub-menu {
-            width: calc(115% * 6);
-        }
-    }
-    &.total-columns-7 {
-        width: 12.571428%;
-    }
-    &.total-columns-8 {
-        width: 10.75%;
-    }
-    &:last-child {
-        padding-right: 0;
-    }
-}
-
 
 // icon menu items.
 /*
