@@ -147,6 +147,8 @@
     }
     
     .bmm-tabpane {
+        position: absolute;
+        left: 0;
         visibility: hidden;
         width: 100%;
         text-align: left;
@@ -212,7 +214,12 @@
 */
 
 #menu-item-5 > .bmm-sub-menu,
-#menu-item-26 > .bmm-sub-menu {
+//#menu-item-26 > .bmm-sub-menu,
+#menu-item-25 > .bmm-sub-menu {
     visibility: visible;
     opacity: 1;
+}
+
+#menu-item-25 > .bmm-sub-menu {
+    background: #ccc;
 }
