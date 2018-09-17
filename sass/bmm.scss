@@ -120,7 +120,7 @@
         }
         
         &:hover {
-            .bmm-icon-wrapper {
+            > .bmm-icon-wrapper {
                 transform: translateY(-8px);   
             }
         }
@@ -143,6 +143,52 @@
                 }
             }
             
+        }
+        
+        .icon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            
+            .grid-icon {
+                flex-grow: 1;
+                width: 18.4%;
+                text-align: center;
+                margin-right: 2%;
+                
+                .bmm-menu-link {
+                    //display: inline-block;
+                    //text-decoration: none;
+                    padding: 0;
+                
+                    .grid-icon-image {
+                        background-size: contain;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        border-radius: 3px;
+                        display: block;
+                        background-size: 85px;
+                        height: 115px;
+                        width: 115px;
+                        margin: 0 auto;            
+                        transition: transform ease-in-out 0.25s;
+                        
+                        &.empty {
+                            background-image: url('http://via.placeholder.com/150x150/e3e3e3/000000?text=icon');
+                        }
+                        
+    /*
+                        &.is-icon {
+                            font-size: 80px;
+                            color: $dell-blue;
+                        }
+    */  
+                        
+                        &:hover {
+                            transform: translateY(-8px);
+                        }                     
+                    }
+                }
+            }
         }        
     }
     
@@ -156,62 +202,6 @@
         transition-delay: 0.4s;
     }    
 }
-
-// grid icons.
-/*
-.pmm-mega-sub-menu.icon-grid {
-    display: flex;
-    flex-wrap: wrap;
-    
-    .pmm-mega-menu-item.grid-icon {
-        flex-grow: 1;
-        width: 18.4%;
-        text-align: center;
-        margin-right: 2%;
-        
-        .pmm-mega-menu-link {
-            display: inline-block;
-            text-decoration: none;
-            padding: 0;
-            
-            .item-icon {
-                background-size: contain;
-                background-position: center center;
-                background-repeat: no-repeat;
-                border-radius: 3px;
-                display: block;
-                background-size: 85px;
-                height: 115px;
-                width: 115px;
-                margin: 0 auto;            
-                transition: transform ease-in-out 0.25s;
-                
-                &.empty {
-                    background-image: url('http://via.placeholder.com/150x150/e3e3e3/000000?text=icon');
-                }
-                
-                &.is-icon {
-                    font-size: 80px;
-                    color: $dell-blue;
-                }  
-                
-                &:hover {
-                    transform: translateY(-8px);
-                }          
-            }
-            
-            .item-title {
-                @include font-size(0.9);
-                margin-top: -8px;
-            }
-        }
-        
-        &:nth-child(5n) {
-            margin-right: 0;
-        }
-    }
-}
-*/
 
 #menu-item-5 > .bmm-sub-menu,
 //#menu-item-26 > .bmm-sub-menu,
