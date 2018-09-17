@@ -219,8 +219,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             $icon_after = '';
             
             if ('icon-wrapper' === $linkmod_type) :
-                $icon_before = '<span class="bmm-icon-wrapper">';
-                $icon_after = '</span>';
+                $icon_before = '<div class="bmm-icon-wrapper">';
+                $icon_after = '</div>';
             endif;
             
             $icon_html = $icon_before . '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i>' . $icon_after;
@@ -381,22 +381,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( ! empty( $linkmod_classes ) ) {
             foreach ( $linkmod_classes as $link_class ) {
                 if ( ! empty( $link_class ) ) {
-                    // update $atts with a space and the extra classname... so long as it's not a sr-only class.
-/*
-                    if ( 'sr-only' !== $link_class ) {
-                        $atts['class'] .= ' ' . esc_attr( $link_class );
+                    if ( 'icon-wrapper' === $link_class ) {
+                        //$atts['class'] .= ' has-icon-wrapper';
                     }
-                    // check for special class types we need additional handling for.
-                    if ( 'disabled' === $link_class ) {
-                        // Convert link to '#' and unset open targets.
-                        $atts['href'] = '#';
-                        unset( $atts['target'] );
-                    } elseif ( 'dropdown-header' === $link_class || 'dropdown-divider' === $link_class || 'dropdown-item-text' === $link_class ) {
-                        // Store a type flag and unset href and target.
-                        unset( $atts['href'] );
-                        unset( $atts['target'] );
-                    }
-*/
                 }
             }
         }
