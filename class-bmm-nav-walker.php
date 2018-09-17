@@ -224,6 +224,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             endif;
             
             $icon_html = $icon_before . '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i>' . $icon_after;
+        } elseif ('grid-icon' === $linkmod_type) {
+            $icon_html = '<div class="grid-icon-image" style="background-image:url('.get_the_post_thumbnail_url($item->object_id).')"></div>';
         }
 
         /** This filter is documented in wp-includes/post-template.php */
@@ -286,6 +288,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
      * @param array  $args              An array of arguments.
      * @param string $output            Used to append additional content (passed by reference).
      */
+/*
     public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
         if ( ! $element ) {
             return; }
@@ -295,6 +298,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             $args[0]->has_children = ! empty( $children_elements[ $element->$id_field ] ); }
         parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
     }
+*/
 
     /**
      * Find any custom linkmod or icon classes and store in their holder arrays then remove them from the main classes array.
@@ -322,6 +326,10 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
                 // Test for .icon-wrapper.
                 $linkmod_classes[] = $class;
                 unset( $classes[ $key ] );
+            } elseif ( preg_match( '/^grid-icon/i', $class ) ) {
+                // Test for .grid-icon.
+                $linkmod_classes[] = $class;
+                //unset( $classes[ $key ] );                
             } elseif ( preg_match( '/^fa-(\S*)?|^fa(s|r|l|b)?(\s?)?$/i', $class ) ) {
                 // Font Awesome.
                 $icon_classes[] = $class;
@@ -358,8 +366,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             foreach ( $linkmod_classes as $link_class ) {
                 if ( ! empty( $link_class ) ) {
                     // check for special class types and set a flag for them.
-                    if ( 'icon-wrapper' === $link_class ) {
-                        $linkmod_type = 'icon-wrapper';
+                    if ( 'icon-wrapper' === $link_class || 'grid-icon' === $link_class) {
+                        $linkmod_type = $link_class;
                     }
                 }
             }
