@@ -169,13 +169,9 @@
             
             .grid-icon {
                 flex-grow: 1;
-                //width: 18.4%;
                 text-align: center;
-                //margin-right: 2%;
                 
                 .bmm-menu-link {
-                    //display: inline-block;
-                    //text-decoration: none;
                     padding: 0;
                 
                     .grid-icon-image {
@@ -220,6 +216,7 @@
     }    
 }
 
+// DEBUG
 #menu-item-5 > .bmm-sub-menu {
     visibility: visible;
     opacity: 1;
