@@ -106,12 +106,6 @@
                 width: calc(115% * 6);
             }
         }
-        &.total-columns-7 {
-            width: 12.571428%;
-        }
-        &.total-columns-8 {
-            width: 10.75%;
-        }
         &:last-child {
             padding-right: 0;
         }
@@ -218,6 +212,7 @@
 }
 
 // DEBUG
+/*
 #menu-item-5 > .bmm-sub-menu {
     visibility: visible;
     opacity: 1;
@@ -237,3 +232,4 @@
 #menu-item-25 > .bmm-sub-menu {
     background: #ccc;
 }
+*/
