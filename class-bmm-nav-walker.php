@@ -51,8 +51,31 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         $class_names = join( ' ', apply_filters( 'nav_menu_submenu_css_class', $classes, $args, $depth ) );
         $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
-        $output .= "{$n}{$indent}<ul$class_names>{$n}";
+        $output .= "{$n}{$indent}<ul$class_names>{$n}";       
     }
+    
+    /**
+     * Ends the list of after the elements are added.
+     *
+     * @since 3.0.0
+     *
+     * @see Walker::end_lvl()
+     *
+     * @param string   $output Used to append additional content (passed by reference).
+     * @param int      $depth  Depth of menu item. Used for padding.
+     * @param stdClass $args   An object of wp_nav_menu() arguments.
+     */
+    public function end_lvl( &$output, $depth = 0, $args = array() ) {
+        if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+            $t = '';
+            $n = '';
+        } else {
+            $t = "\t";
+            $n = "\n";
+        }
+        $indent = str_repeat( $t, $depth );
+        $output .= "$indent</ul>{$n}";      
+    }    
 
     /**
      * Starts the element output.
@@ -225,7 +248,16 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             
             $icon_html = $icon_before . '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i>' . $icon_after;
         } elseif ('grid-icon' === $linkmod_type) {
-            $icon_html = '<div class="grid-icon-image" style="background-image:url('.get_the_post_thumbnail_url($item->object_id).')"></div>';
+            $icon_classes = array('grid-icon-image');
+            $style = '';
+            
+            if (has_post_thumbnail($item->object_id)) :
+                $style = 'style="background-image:url('.get_the_post_thumbnail_url($item->object_id).')"';
+            else :
+                $icon_classes[] = 'empty'; 
+            endif;
+            
+            $icon_html = '<div class="'.implode(' ', $icon_classes).'" '.$style.'></div>';
         }
 
         /** This filter is documented in wp-includes/post-template.php */
