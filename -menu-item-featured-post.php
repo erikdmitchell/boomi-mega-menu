@@ -10,7 +10,7 @@
  * Add featured post meta box.
  *
  * @access public
- * @param mixed $object
+ * @param mixed $object (object).
  * @return void
  */
 function boomi_add_menu_meta_box_featured_post( $object ) {
@@ -102,7 +102,7 @@ function boomi_menu_meta_box_featured_post() {
                     echo esc_url( add_query_arg( 'featured-item-tab', 'all', remove_query_arg( $removed_args ) ) );}
                 ?>
 #tabs-panel-authorarchive-all">
-                    <?php _e( 'View All' ); ?>
+                    <?php esc_attr_e( 'View All', 'boomi-mega-menu' ); ?>
                 </a>
             </li><!-- /.tabs -->
 
@@ -113,7 +113,7 @@ function boomi_menu_meta_box_featured_post() {
                     echo esc_url( add_query_arg( 'featured-item-tab', 'events', remove_query_arg( $removed_args ) ) );}
                 ?>
 #tabs-panel-featured-item-events">
-                    <?php _e( 'Events' ); ?>
+                    <?php esc_attr_e( 'Events', 'boomi-mega-menu' ); ?>
                 </a>
             </li><!-- /.tabs -->
 
@@ -124,7 +124,7 @@ function boomi_menu_meta_box_featured_post() {
                     echo esc_url( add_query_arg( 'featured-item-tab', 'admins', remove_query_arg( $removed_args ) ) );}
                 ?>
 #tabs-panel-featured-item-solutions">
-                    <?php _e( 'Solutions' ); ?>
+                    <?php esc_attr_e( 'Solutions', 'boomi-mega-menu' ); ?>
                 </a>
             </li><!-- /.tabs -->
         </ul>
@@ -155,10 +155,10 @@ function boomi_menu_meta_box_featured_post() {
         
         <p class="button-controls">
             <span class="list-controls">
-                <a href="/wp-admin/nav-menus.php?menu=<?php echo $nav_menu_selected_id; ?>&selectall=1#posttype-featured-item" class="select-all">Select All</a>
+                <a href="/wp-admin/nav-menus.php?menu=<?php echo esc_attr($nav_menu_selected_id); ?>&selectall=1#posttype-featured-item" class="select-all">Select All</a>
             </span>
             <span class="add-to-menu">
-                <input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'boomi-mega-meni' ); ?>" name="add-post-type-menu-item" id="submit-posttype-featured-item" />
+                <input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'boomi-mega-menu' ); ?>" name="add-post-type-menu-item" id="submit-posttype-featured-item" />
                 <span class="spinner"></span>
             </span>
         </p>
