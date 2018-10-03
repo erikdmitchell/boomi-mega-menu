@@ -155,7 +155,7 @@ function boomi_menu_meta_box_featured_post() {
         
         <p class="button-controls">
             <span class="list-controls">
-                <a href="/wp-admin/nav-menus.php?menu=<?php echo esc_attr($nav_menu_selected_id); ?>&selectall=1#posttype-featured-item" class="select-all">Select All</a>
+                <a href="/wp-admin/nav-menus.php?menu=<?php echo esc_attr( $nav_menu_selected_id ); ?>&selectall=1#posttype-featured-item" class="select-all">Select All</a>
             </span>
             <span class="add-to-menu">
                 <input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'boomi-mega-menu' ); ?>" name="add-post-type-menu-item" id="submit-posttype-featured-item" />
