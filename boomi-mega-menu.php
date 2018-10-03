@@ -1,10 +1,10 @@
 <?php
 /**
  * Plugin Name:     Boomi Mega Menu
- * Plugin URI:      PLUGIN SITE HERE
- * Description:     PLUGIN DESCRIPTION HERE
- * Author:          YOUR NAME HERE
- * Author URI:      YOUR SITE HERE
+ * Plugin URI:      https://boomi.com
+ * Description:     Allows creation of a mega menu using the built in menu builder.
+ * Author:          Erik Mitchell
+ * Author URI:      http://erikmitchell.net
  * Text Domain:     boomi-mega-menu
  * Domain Path:     /languages
  * Version:         0.1.0
