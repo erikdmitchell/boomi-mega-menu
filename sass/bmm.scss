@@ -163,7 +163,7 @@
             
         }
         
-        .icon-grid {
+        .icon-grid > ul {
             display: flex;
             flex-wrap: wrap;
             
@@ -171,7 +171,7 @@
                 flex-grow: 1;
                 //width: 18.4%;
                 text-align: center;
-                margin-right: 2%;
+                //margin-right: 2%;
                 
                 .bmm-menu-link {
                     //display: inline-block;
@@ -202,6 +202,7 @@
                     .grid-icon-title {
                         font-size: 0.9em;
                         margin-top: -8px;
+                        margin-bottom: 10px;
                     }
                 }
             }
@@ -219,13 +220,22 @@
     }    
 }
 
-#menu-item-5 > .bmm-sub-menu,
-//#menu-item-26 > .bmm-sub-menu,
+#menu-item-5 > .bmm-sub-menu {
+    visibility: visible;
+    opacity: 1;
+}
+
 #menu-item-25 > .bmm-sub-menu {
     visibility: visible;
     opacity: 1;
 }
 
+#menu-item-26 > .bmm-sub-menu {
+    //visibility: visible;
+    //opacity: 1;
+}
+
+#menu-item-26 > .bmm-sub-menu,
 #menu-item-25 > .bmm-sub-menu {
     background: #ccc;
 }
