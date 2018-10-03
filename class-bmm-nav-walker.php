@@ -247,6 +247,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             endif;
 
             $icon_html = $icon_before . '<i class="' . esc_attr( $icon_class_string ) . ' bmm-icon" aria-hidden="true"></i>' . $icon_after;
+            
+            $icon_html = apply_filters('bmm_icon_class_html', $icon_html, $item, $icon_before, $icon_after, $icon_class_string);
         } elseif ( 'grid-icon' === $linkmod_type ) {
             $icon_classes = array( 'grid-icon-image' );
             $style = '';
@@ -258,6 +260,8 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             endif;
 
             $icon_html = '<div class="' . implode( ' ', $icon_classes ) . '" ' . $style . '></div>';
+            
+            $icon_html = apply_filters('bmm_grid_icon_linkmod_html', $icon_html, $item, $icon_classes, $style);
         }
 
         /** This filter is documented in wp-includes/post-template.php */
@@ -280,7 +284,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             $title = '';
         endif;
 
-        // tweak for grid icons.
+        // tweak for grid icons. -- this may not be working
         if ( 'grid-icon' === $linkmod_type ) {
             $title = '<div class="grid-icon-title">' . $title . '</div>';
         }
