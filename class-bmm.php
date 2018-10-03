@@ -97,7 +97,6 @@ final class BMM {
      * @return void
      */
     public function frontend_scripts_styles() {
-        wp_enqueue_style( 'fontboomi', BMM_URL . 'font-boomi/css/fontboomi.css', '', '1.0.0' );
         wp_enqueue_style( 'bmm-style', BMM_URL . 'sass/bmm.css', '', $this->version );
     }
 
