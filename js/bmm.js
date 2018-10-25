@@ -10,7 +10,7 @@ jQuery(function ($) {
     // run our functions.
     jQuery(document).ready(function() {
         sizeTabpanes();
-        positionSubmenus();        
+        //positionSubmenus();        
     });
     
     // on window resize, run functions.
