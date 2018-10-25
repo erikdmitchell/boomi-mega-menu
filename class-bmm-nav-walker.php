@@ -35,6 +35,10 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         // Default class to add to the file.
         $classes = array( 'bmm-sub-menu' );
 
+        if (0 === $depth) :
+            $classes[] = 'bmm-top-level-sub-menu';        
+        endif;
+
         if ( 3 == $depth ) :
             $classes[] = 'bmm-tabpane';
         endif;
