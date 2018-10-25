@@ -97,6 +97,8 @@ final class BMM {
      * @return void
      */
     public function frontend_scripts_styles() {
+        wp_enqueue_script( 'bmm-scrupt', BMM_URL.'js/bmm.js', array('jquery'), $this->version, false);
+        
         wp_enqueue_style( 'bmm-style', BMM_URL . 'css/bmm.css', '', $this->version );
     }
 
