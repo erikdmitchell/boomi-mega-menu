@@ -212,6 +212,12 @@ gulp.task('build', function (cb) {
     runSequence('styles', 'scripts', 'zip', cb);
 });
 
+// Styles task
+gulp.task('styles', function (cb) {
+    runSequence('sass', 'mincss', cb);
+});
+
+
 // Watch Task
 gulp.task('default', ['styles', 'scripts'], function () {
     gulp.watch('./sass/**/*', ['sass']);
