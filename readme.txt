@@ -30,6 +30,13 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 0.2.0 =
+* Fixed third level (tabpane) width and alignment
+
+* Added filters for icons and linkmods
+
+* Uses minfied js and css files
+
 = 0.1.1 =
 * Fixed CSS path issue.
 
