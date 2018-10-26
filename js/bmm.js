@@ -1,12 +1,5 @@
 jQuery(function ($) {
 
-    // setup tabpanes classes
-/*
-    $('.pmm-mega-sub-menu-tabpane').each(function () {        
-        $(this).parent().addClass('has-tabpane');
-    });
-*/
-    
     // run our functions.
     jQuery(document).ready(function() {
         sizeTabpanes();       
@@ -30,14 +23,5 @@ jQuery(function ($) {
             });
         });        
     }
-    
-    // removes active class (set for onload) from a column.
-/*
-    $('.pmm-mega-menu-column').on('mouseleave', function() {
-        if ($(this).hasClass('active')) {
-            $(this).removeClass('active');   
-        }        
-    });
-*/
 
 });
