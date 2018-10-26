@@ -25,9 +25,11 @@ jQuery(function ($) {
             var $menu = $(this).parents('.bmm-sub-menu.bmm-top-level-sub-menu');
             var menuWidth = $menu.width();
             var left = ($(this).offset().left - $menu.offset().left) * -1;
-    
-            $(this).width(menuWidth);
-            $(this).css('left', left);
+
+            $(this).css({
+                'left': left,
+                'width': menuWidth
+            });
         });        
     }
     
