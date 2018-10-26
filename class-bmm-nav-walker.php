@@ -288,7 +288,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             $title = '';
         endif;
 
-        // tweak for grid icons. -- this may not be working
+        // tweak for grid icons.
         if ( 'grid-icon' === $linkmod_type ) {
             $title = '<div class="grid-icon-title">' . $title . '</div>';
         }
