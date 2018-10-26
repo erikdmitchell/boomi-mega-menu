@@ -203,7 +203,7 @@ gulp.task('phpcbf', function () {
 gulp.task('zip', function () {
   return gulp.src(buildInclude)
     .pipe(zip('boomi-mega-menu.zip'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./../'));
 });
 
 
