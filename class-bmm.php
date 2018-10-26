@@ -19,7 +19,7 @@ final class BMM {
      * @var string
      * @access public
      */
-    public $version = '0.1.1';
+    public $version = '0.2.0';
 
     /**
      * Construct function.
@@ -97,7 +97,9 @@ final class BMM {
      * @return void
      */
     public function frontend_scripts_styles() {
-        wp_enqueue_style( 'bmm-style', BMM_URL . 'css/bmm.css', '', $this->version );
+        wp_enqueue_script( 'bmm-scrupt', BMM_URL . 'js/bmm.min.js', array( 'jquery' ), $this->version, false );
+
+        wp_enqueue_style( 'bmm-style', BMM_URL . 'css/bmm.min.css', '', $this->version );
     }
 
     /**

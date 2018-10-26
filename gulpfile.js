@@ -111,7 +111,6 @@ gulp.task('sass', function () {
 });
 
 // minify all css
-/*
 gulp.task('mincss', function () {
     gulp.src(cssInclude)
         .pipe(plumber())
@@ -132,7 +131,6 @@ gulp.task('mincss', function () {
         }))
         .pipe(gulp.dest('./'))
 });
-*/
 
 // css linting with Stylelint.
 gulp.task('lintcss', function lintCssTask() {
@@ -164,24 +162,6 @@ gulp.task('lintjs', function() {
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });
-
-/*
-gulp.task('scripts', function () {
-    return gulp.src('./js/*.js')
-        .pipe(concat('custom.js'))
-        .pipe(gulp.dest('./assets/js'))
-        .pipe(rename({
-            basename: "custom",
-            suffix: '.min'
-        }))
-        .pipe(uglify())
-        .pipe(gulp.dest('./assets/js/'))
-        .pipe(notify({
-            message: 'Custom scripts task complete',
-            onLast: true
-        }));
-});
-*/
 
 /**
  * PHP
@@ -223,7 +203,7 @@ gulp.task('phpcbf', function () {
 gulp.task('zip', function () {
   return gulp.src(buildInclude)
     .pipe(zip('boomi-mega-menu.zip'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./../'));
 });
 
 
@@ -234,8 +214,7 @@ gulp.task('build', function (cb) {
 
 // Styles task
 gulp.task('styles', function (cb) {
-    //runSequence('sass', 'mincss', cb);
-    runSequence('sass', cb);    
+    runSequence('sass', 'mincss', cb);
 });
 
 
