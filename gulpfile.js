@@ -111,7 +111,6 @@ gulp.task('sass', function () {
 });
 
 // minify all css
-/*
 gulp.task('mincss', function () {
     gulp.src(cssInclude)
         .pipe(plumber())
@@ -132,7 +131,6 @@ gulp.task('mincss', function () {
         }))
         .pipe(gulp.dest('./'))
 });
-*/
 
 // css linting with Stylelint.
 gulp.task('lintcss', function lintCssTask() {
@@ -216,8 +214,7 @@ gulp.task('build', function (cb) {
 
 // Styles task
 gulp.task('styles', function (cb) {
-    //runSequence('sass', 'mincss', cb);
-    runSequence('sass', cb);    
+    runSequence('sass', 'mincss', cb);  
 });
 
 
