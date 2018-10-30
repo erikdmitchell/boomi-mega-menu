@@ -145,6 +145,11 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( 0 === $depth ) :
             $classes[] = 'bmm-primary-nav-item';
         endif;
+        
+        // add class if has description.
+        if (!empty($item->description)) :
+            $classes[] = 'has-description';
+        endif;
 
         // Setup columns if need be.
         $classes = $this->setup_column_classes( $classes, $item, $args, $depth );
@@ -292,9 +297,16 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( 'grid-icon' === $linkmod_type ) {
             $title = '<div class="grid-icon-title">' . $title . '</div>';
         }
+        
+        // description setup
+        if (empty($item->description)) :
+            $description = '';
+        else :
+            $description = '<div class="menu-item-description">' . $item->description . '</div>';
+        endif;
 
         // Put the item contents into $output.
-        $item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $args->link_after : '';
+        $item_output .= isset( $args->link_before ) ? $args->link_before . $icon_html . $title . $description . $args->link_after : '';
 
         /**
          * This is the end of the internal nav item. We need to close the correct element depending on the type of link or link mod.
