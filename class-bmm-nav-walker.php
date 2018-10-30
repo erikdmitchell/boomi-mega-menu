@@ -298,7 +298,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
             $title = '<div class="grid-icon-title">' . $title . '</div>';
         }
 
-        // description setup
+        // description setup.
         if ( empty( $item->description ) ) :
             $description = '';
         else :
