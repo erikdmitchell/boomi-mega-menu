@@ -145,9 +145,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( 0 === $depth ) :
             $classes[] = 'bmm-primary-nav-item';
         endif;
-        
+
         // add class if has description.
-        if (!empty($item->description)) :
+        if ( ! empty( $item->description ) ) :
             $classes[] = 'has-description';
         endif;
 
@@ -297,9 +297,9 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         if ( 'grid-icon' === $linkmod_type ) {
             $title = '<div class="grid-icon-title">' . $title . '</div>';
         }
-        
+
         // description setup
-        if (empty($item->description)) :
+        if ( empty( $item->description ) ) :
             $description = '';
         else :
             $description = '<div class="menu-item-description">' . $item->description . '</div>';
