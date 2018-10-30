@@ -30,6 +30,9 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 0.2.2 =
+* Added top position to tabpanes.
+
 = 0.2.1 =
 * Added support for menu item descriptions.
 
