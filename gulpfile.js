@@ -22,6 +22,7 @@ var buildInclude = [
         '!./gulpfile.js',
         '!./{node_modules,node_modules/**/*}',
         '!./package.json',
+        '!./package-lock.json',
         '!./phpcs.ruleset.xml',
         '!./{sass,sass/**/*}',
         '!./.stylelintrc',
