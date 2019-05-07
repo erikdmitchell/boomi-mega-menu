@@ -189,7 +189,7 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
 
         $atts['target'] = ! empty( $item->target ) ? $item->target : '';
         $atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
-        $atts['href']   = ! empty( $item->url ) ? $item->url : '';
+        $atts['href']   = ! empty( $item->url ) ? apply_filters( 'bmm_item_href', $item->url, $item->ID, $item ) : '';
         $atts['class'] = 'bmm-menu-link'; // set class for link. -- CHECK when adding icons.
 
         // update atts of this item based on any custom linkmod classes.
