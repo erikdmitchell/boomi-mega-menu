@@ -19,7 +19,7 @@ final class BMM {
      * @var string
      * @access public
      */
-    public $version = '0.3.1';
+    public $version = '0.3.2';
 
     /**
      * Construct function.
