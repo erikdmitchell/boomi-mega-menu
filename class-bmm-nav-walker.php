@@ -261,13 +261,13 @@ class BMM_Nav_Walker extends Walker_Nav_Menu {
         } elseif ( 'grid-icon' === $linkmod_type ) {
             $icon_classes = array( 'grid-icon-image' );
             $style = '';
-            $custom_grid_icon_matches = preg_grep('/^grid-icon-/', $item->classes);
+            $custom_grid_icon_matches = preg_grep( '/^grid-icon-/', $item->classes );
             $fb_icon = '';
 
             if ( has_post_thumbnail( $item->object_id ) ) :
                 $style = 'style="background-image:url(' . get_the_post_thumbnail_url( $item->object_id ) . ')"';
-            elseif (isset($custom_grid_icon_matches[1]) && !empty($custom_grid_icon_matches[1])) :
-                $fb_icon = str_replace('grid-icon-', '', $custom_grid_icon_matches[1]);
+            elseif ( isset( $custom_grid_icon_matches[1] ) && ! empty( $custom_grid_icon_matches[1] ) ) :
+                $fb_icon = str_replace( 'grid-icon-', '', $custom_grid_icon_matches[1] );
                 $fb_icon = '<i class="' . $fb_icon . '"></i>';
             else :
                 $icon_classes[] = 'empty';
