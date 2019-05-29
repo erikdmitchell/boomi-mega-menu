@@ -3,8 +3,8 @@ Contributors: erikdmitchell
 Donate link: 
 Tags: mega menu, menu
 Requires at least: 4.5
-Tested up to: 5.1.1
-Stable tag: 0.3.2
+Tested up to: 5.2.1
+Stable tag: 0.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ This section describes how to install the plugin and get it working.
 == Screenshots ==
 
 == Changelog ==
+
+= 0.3.3 =
+* Updated code to meet our standards.
 
 = 0.3.2 =
 * Added bmm_item_href filter for the menu item href attribute.

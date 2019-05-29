@@ -1,6 +1,6 @@
 {
   "name": "boomi-mega-menu",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Boomi Mega Menu.",
   "main": "gulpfile.js",
   "scripts": {
