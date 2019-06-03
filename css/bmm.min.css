@@ -15,7 +15,7 @@
 .bmm-menu .menu-item .icon-grid>ul{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;text-align:center}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link{padding:0}.bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image{background-size:contain;background-position:center center;background-repeat:no-repeat;border-radius:3px;display:block;background-size:85px;height:115px;width:115px;margin:0 auto;-webkit-transition:-webkit-transform ease-in-out .25s;transition:-webkit-transform ease-in-out .25s;transition:transform ease-in-out .25s;transition:transform ease-in-out .25s,-webkit-transform ease-in-out .25s}
-.bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image.empty{background-image:url('http://via.placeholder.com/150x150/e3e3e3/000000?text=icon')}
+.bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image.empty{background-image:url("http://via.placeholder.com/150x150/e3e3e3/000000?text=icon")}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image:hover{-webkit-transform:translateY(-8px);transform:translateY(-8px)}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-title{font-size:.9em;margin-top:-8px;margin-bottom:10px}
 .bmm-menu .bmm-sub-menu:after{content:'';clear:both;display:table}
