@@ -7,7 +7,7 @@
  * Author URI:      http://erikmitchell.net
  * Text Domain:     boomi-mega-menu
  * Domain Path:     /languages
- * Version:         0.2.1
+ * Version:         0.3.3
  *
  * @package         Boomi_Mega_Menu
  */

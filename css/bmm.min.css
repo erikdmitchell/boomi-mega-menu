@@ -18,5 +18,5 @@
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image.empty{background-image:url("http://via.placeholder.com/150x150/e3e3e3/000000?text=icon")}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-image:hover{-webkit-transform:translateY(-8px);transform:translateY(-8px)}
 .bmm-menu .menu-item .icon-grid>ul .grid-icon .bmm-menu-link .grid-icon-title{font-size:.9em;margin-top:-8px;margin-bottom:10px}
-.bmm-menu .bmm-sub-menu:after{content:"";clear:both;display:table}
+.bmm-menu .bmm-sub-menu:after{content:'';clear:both;display:table}
 .bmm-menu .bmm-tabpane{position:absolute;left:0;visibility:hidden;width:100%;text-align:left;opacity:0;-webkit-transition-delay:.4s;transition-delay:.4s;padding:5px}
