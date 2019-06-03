@@ -1,20 +1,21 @@
 // Project configuration
 var buildInclude = [
         // include common file types
-        //'**/*.php',
-        //'**/*.html',
-        //'**/*.css',
-        //'**/*.js',
-        //'**/*.svg',
-        //'**/*.ttf',
-        //'**/*.otf',
-        //'**/*.eot',
-        //'**/*.woff',
-        //'**/*.woff2',
-        
-        './**/*',
+        '**/*.php',
+        '**/*.html',
+        '**/*.css',
+        '**/*.js',
+        '**/*.svg',
+        '**/*.ttf',
+        '**/*.otf',
+        '**/*.eot',
+        '**/*.woff',
+        '**/*.woff2',
+        '**/*.png',
+        '**/*.txt',
         
         // include specific files and folders
+        'screenshot.png',
 
         // exclude files and folders
         '!./composer.json', 
@@ -22,17 +23,17 @@ var buildInclude = [
         '!./gulpfile.js',
         '!./{node_modules,node_modules/**/*}',
         '!./package.json',
-        '!./package-lock.json',
         '!./phpcs.ruleset.xml',
         '!./{sass,sass/**/*}',
         '!./.stylelintrc',
         '!./{vendor,vendor/**/*}',
+        '!svn/**'
     ];
     
 var phpSrc = [
         '**/*.php', // Include all files    
-        '!node_modules/**/*', // Exclude node_modules/
-        '!vendor/**' // Exclude vendor/    
+        '!node_modules/**/*', // Exclude node_modules
+        '!vendor/**' // Exclude vendor   
     ];
 
 var cssInclude = [
@@ -82,8 +83,9 @@ var gulp = require('gulp'),
     stylelint = require('gulp-stylelint'), // stylelint plugin
     phpcs = require('gulp-phpcs'), // Gulp plugin for running PHP Code Sniffer.
     phpcbf = require('gulp-phpcbf'), // PHP Code Beautifier
-    gutil = require('gulp-util'); // gulp util
-    zip = require('gulp-zip'); // gulp zip
+    gutil = require('gulp-util'), // gulp util
+    zip = require('gulp-zip'), // gulp zip
+    beautify = require('gulp-jsbeautifier');
 
 /**
  * Styles
@@ -91,12 +93,12 @@ var gulp = require('gulp'),
  
 // compile sass
 gulp.task('sass', function () {
-    gulp.src('./sass/*.scss')
+    gulp.src('**/sass/*.scss')
         .pipe(plumber())
         .pipe(sourcemaps.init())
         .pipe(sass({
             errLogToConsole: true,
-            outputStyle: 'expanded',
+            outputStyle: 'nested',
             precision: 10
         }))
         .pipe(sourcemaps.write({
@@ -108,7 +110,7 @@ gulp.task('sass', function () {
         .pipe(autoprefixer('last 2 version', '> 1%', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(sourcemaps.write('.'))
         .pipe(plumber.stop())
-        .pipe(gulp.dest('./css/'))   
+        .pipe(gulp.dest('./'))
 });
 
 // minify all css
@@ -141,7 +143,14 @@ gulp.task('lintcss', function lintCssTask() {
         {formatter: 'string', console: true}
       ]
     }));
-});	
+});
+
+// make pretty
+gulp.task('beautifycss', () =>
+    gulp.src(cssInclude)
+        .pipe(beautify())
+        .pipe(gulp.dest('./'))
+);	
 
 /**
  * Scripts
@@ -163,6 +172,30 @@ gulp.task('lintjs', function() {
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });
+
+// combine scripts into one file and min it.
+gulp.task('scriptscombine', function () {
+    return gulp.src(jsInclude)
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest('./inc/js'))
+        .pipe(rename({
+            basename: "scripts",
+            suffix: '.min'
+        }))
+        .pipe(uglify())
+        .pipe(gulp.dest('./inc/js/'))
+        .pipe(notify({
+            message: 'Scripts combined',
+            onLast: true
+        }));
+});
+
+// make pretty
+gulp.task('beautifyjs', () =>
+    gulp.src(jsInclude)
+        .pipe(beautify())
+        .pipe(gulp.dest('./'))
+);
 
 /**
  * PHP
@@ -193,20 +226,13 @@ gulp.task('phpcbf', function () {
 });
 
 // ==== TASKS ==== //
-/**
- * Gulp Default Task
- *
- * Compiles styles, watches js and php files.
- *
- */
 
 // gulp zip
 gulp.task('zip', function () {
   return gulp.src(buildInclude)
     .pipe(zip('boomi-mega-menu.zip'))
     .pipe(gulp.dest('./../'));
-});
-
+});  
 
 // Package Distributable
 gulp.task('build', function (cb) {
