@@ -5,7 +5,7 @@
  * @package Boomi_Mega_Menu
  * @since   0.4.0
  */
- 
+
 /**
  * Sanitize array.
  *
