@@ -70,6 +70,7 @@ final class BMM {
         include_once( BMM_PATH . 'class-bmm-menu-item-column.php' );
         include_once( BMM_PATH . 'class-bmm-menu-item-row.php' );
         include_once( BMM_PATH . 'class-bmm-nav-walker.php' );
+        include_once( BMM_PATH . 'functions.php' );
     }
 
     /**
