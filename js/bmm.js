@@ -1,27 +1,49 @@
 jQuery(function($) {
-
+    
     // run our functions.
-    jQuery(document).ready(function() {
+    $(document).ready(function() {
+//console.log('doc');
         sizeTabpanes();
         positionSubmenus();
     });
 
     // on window resize, run functions.
     $(window).on('resize', function() {
+//console.log('resize');
         sizeTabpanes();
         positionSubmenus();
     });
 
     // sets the width and position of the tabpanes.
-    function sizeTabpanes() {
+    function sizeTabpanes() {        
+//console.log('sizeTabpanes');                 
         $('.bmm-sub-menu.bmm-tabpane').each(function() {
+//console.log('------------------');            
             var $menu = $(this).parents('.bmm-sub-menu.bmm-top-level-sub-menu');
             var menuWidth = $menu.outerWidth();
             var menuHeight = $menu.outerHeight();
             var menuPadding = parseInt($menu.css('padding'), 10);
+            var tabpaneOffsetLeft = $(this).offset().left;
+            var menuOffsetLeft = $menu.offset().left;
             var top = menuHeight - menuPadding;
-            var left = ($(this).offset().left - $menu.offset().left) * -1;
+            var left = (tabpaneOffsetLeft - menuOffsetLeft);
+            
+// fixes potential positive left (do we need?).            
+if (tabpaneOffsetLeft > menuOffsetLeft) {
+    left = left * -1;
+}
 
+//console.log(left);
+
+// prevents setting left to 0 on weird resize issue.
+if ((tabpaneOffsetLeft === menuOffsetLeft) && (tabpaneOffsetLeft != 0 && menuOffsetLeft != 0)) {
+    return;    
+}
+//console.log($menu);
+//console.log('menu w: ' + menuWidth + ' menu h: ' + menuHeight + ' menu pad: ' + menuPadding);
+//console.log('menu w: ' + menuWidth);
+//console.log('tabpane offset: ' + tabpaneOffsetLeft + ' menu offset: ' + menuOffsetLeft);
+//console.log('top: ' + top + ' left: ' + left);
             $(this).css({
                 'left': left,
                 'top': top,
@@ -31,7 +53,7 @@ jQuery(function($) {
     }
 
     // positions the submenus.
-    function positionSubmenus() {
+    function positionSubmenus() {      
         $('.bmm-primary-nav-item.menu-item-has-children').each(function() {
             //var maxMenuLinkWidth = 0;
             var $menu = $('.bmm-menu.nav-menu');
