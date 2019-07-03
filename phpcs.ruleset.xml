@@ -6,7 +6,7 @@
 	<description>PHP_CodeSniffer ruleset.</description>
 
 	<!-- Configs -->
-	<config name="minimum_supported_wp_version" value="5.2" />
+	<config name="minimum_supported_wp_version" value="4.7" />
 	<config name="testVersion" value="7.1-"/>
 
     <!-- Include file/paths -->
@@ -23,6 +23,8 @@
 		<exclude name="Generic.WhiteSpace.DisallowSpaceIndent" />
 		<exclude name="WordPress.VIP.PostsPerPage.posts_per_page_posts_per_page" />
 		<exclude name="WordPress.VIP.DirectDatabaseQuery.NoCaching" />
+        <exclude name="WordPress.VIP.PostsPerPage.posts_per_page_nopaging" />
+        <exclude name="WordPress.VIP.PostsPerPage.posts_per_page_numberposts" />		
 	</rule>
 
     <rule ref="Generic.WhiteSpace.ScopeIndent">
@@ -39,4 +41,13 @@
 			<property name="text_domain" type="array" value="boomi-mega-menu" />
 		</properties>
 	</rule>
+
+    <!-- Custom sanitizing functions. -->	
+    <rule ref="WordPress.Security.ValidatedSanitizedInput">
+        <properties>
+            <property name="customSanitizingFunctions" type="array">
+                <element value="boomi_cms_sanitize_array"/>
+            </property>
+        </properties>
+    </rule>	
 </ruleset>

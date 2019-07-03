@@ -41,7 +41,7 @@ class BMM_Menu_Item_Row {
     public function menu_meta_box() {
         global $_nav_menu_placeholder, $nav_menu_selected_id;
 
-        $_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1;
+        $_nav_menu_placeholder = 0 > $_nav_menu_placeholder ? $_nav_menu_placeholder - 1 : -1; // phpcs:ignore
 
         // setup walker.
         $db_fields = false;
